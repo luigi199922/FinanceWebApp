@@ -7,13 +7,16 @@ import './App.css';
 
 function App() {
   return (
+    
+
+    
     <BrowserRouter>
-      <Navbar/>
-      <div className="App">
-          Hello World
-      </div>
-      <BaseRouter/>
-      <Footer/>
+
+        <Navbar/>
+        <BaseRouter/>
+
+        <Footer/>
+      
     </BrowserRouter>
   );
 }
