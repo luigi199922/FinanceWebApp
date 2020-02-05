@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-
+import Stock from '../../components/Stock/Stock'   
 export default class Stocks extends React.Component{
 
     state = {
@@ -9,9 +9,10 @@ export default class Stocks extends React.Component{
         low: "",
         current: "",
         previousClose: "",
+        url: "https://finnhub.io/api/v1/quote?symbol=AAPL&token=boqata7rh5rfjhndqf1g",
     }
     componentDidMount(){
-        axios.get("https://finnhub.io/api/v1/quote?symbol=AAPL&token=boqata7rh5rfjhndqf1g").then(
+        axios.get(this.state.url).then(
             res=>{
                 this.setState({
                     open:res.data.o,
@@ -27,7 +28,7 @@ export default class Stocks extends React.Component{
         console.log(this.state)
         return(
             <div style={{height: "500px"}}>
-                Stocks
+                <Stock data={this.state}></Stock>
             </div>
         )
     }

@@ -48,8 +48,7 @@ export default class Options extends React.Component{
                         <div className="col-md-12">
                             {this.state.name}
                         </div>
-                    </div>
-        
+                    </div> 
                 {options}
             </div>
         )
