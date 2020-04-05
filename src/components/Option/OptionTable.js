@@ -16,18 +16,29 @@ const OptionTable = props =>{
         })
     }
     return(
+    <div>
        <table style={{width: "100%"}}>
-           <tr>
-               <th colSpan="10">{props.name} {props.data.expirationDate} Calls</th>
-           </tr>
+           <thead>
+            <tr>
+                <th colSpan="10">{props.name} {props.data.expirationDate} Calls</th>
+            </tr>
+           </thead>
             <TableHeader/>
             {callrows}
-            <tr>
-               <th colSpan="10">{props.name} {props.data.expirationDate} Puts</th>
-            </tr>
+        </table>
+        <hr></hr>
+        <table style={{width: "100%"}}>
+            <thead>
+                <tr>
+                    <th colSpan="10">{props.name} {props.data.expirationDate} Puts</th>
+                </tr>
+            </thead>
             <TableHeader/>
+            
             {putrows}
-         </table>
+        </table>
+         
+    </div>
             
         
     )

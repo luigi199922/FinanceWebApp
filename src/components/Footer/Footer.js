@@ -4,7 +4,7 @@ import cx from 'classnames'
 import globalStyles from '../../../node_modules/bootstrap/dist/css/bootstrap.css'
 const Footer = () => {
     return(
-    <footer className=" font-small blue pt-4 bg-dark">
+    <footer className={classes.Footer}>
         <div className="container-fluid text-center text-md-left" >  
     {/* className={cx(globalStyles['container-fluid'], globalStyles['text-center'] ,globalStyles['text-md-left']), classes.white} */ }
         <div className="row">

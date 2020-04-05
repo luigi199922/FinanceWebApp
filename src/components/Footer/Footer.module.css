@@ -1,4 +1,9 @@
-.white{
+
+
+.Footer{
+    background-color: rgb(8, 42, 57);
     color: white;
     text-decoration: none;
+    width: 100%;
+    margin: 0;
 }

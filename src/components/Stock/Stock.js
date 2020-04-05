@@ -28,6 +28,11 @@ const Stock = props => {
                 Low {props.data.low}
             </div>
         </div>
+        <div className="row">
+            <div className="col-md-8">
+                Description: {props.description}
+            </div>
+        </div>
         </div>
     )
 }

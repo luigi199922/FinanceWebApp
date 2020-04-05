@@ -2,8 +2,9 @@ import React from 'react'
 
 const TableHeader = props => {
     return(
+        <thead>
         <tr>
-                
+               
                 <th>
                     Last
                 </th>
@@ -34,7 +35,9 @@ const TableHeader = props => {
                 <th>
                     Strike
                 </th>
+                
             </tr>
+            </thead>
     )
 }   
 export default TableHeader
