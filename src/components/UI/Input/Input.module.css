@@ -1,5 +1,5 @@
 .Input {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     box-sizing: border-box;
 }
@@ -12,7 +12,6 @@
 
 .InputElement {
     outline: none;
-    border: 1px solid #ccc;
     background-color: white;
     font: inherit;
     padding: 6px 10px;

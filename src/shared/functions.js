@@ -1,8 +1,6 @@
 import axios from "axios";
 import { API_KEY } from "./key";
 const base = "https://finnhub.io/api/v1/stock/candle?symbol=";
-const url =
-  "https://finnhub.io/api/v1/stock/candle?symbol=AAPL&resolution=1&from=1572651390&to=1572910590&token=boqata7rh5rfjhndqf1g";
 
 export const formatAPIRequest = (symbol, timeframe, startDate, endDate) => {
   return new Promise((resolve, reject) => {
@@ -28,10 +26,11 @@ export const formatAPIRequest = (symbol, timeframe, startDate, endDate) => {
 
         for (let i = 0; i < o.length; i++) {
           result.push({
-            x: new Date(t[i]),
+            x: new Date(t[i]) *1000,
             y: [o[i], h[i], l[i], c[i]],
           });
         }
+        console.log(result)
         resolve(result);
       })
       .catch((error) => {
@@ -39,4 +38,34 @@ export const formatAPIRequest = (symbol, timeframe, startDate, endDate) => {
         reject(error);
       });
   });
+};
+
+export const getTickerSymbols = () => {
+  return new Promise((resolve, reject) => {
+    const url = "https://finnhub.io/api/v1/stock/symbol?exchange=US" + API_KEY;
+    axios
+      .get(url)
+      .then((res) => {
+        const tickers = [];
+        const data = res.data;
+        for (let i = 0; i < data.length; i++) {
+          const t = data[i].symbol;
+          tickers.push({
+            key: i,
+            value: t,
+            displayValue: t + " " + data[i].description,
+          });
+        }
+        console.log(tickers)
+        resolve(tickers);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const convertFromDateToUNIXTimeStamp = (date) => {
+  const result = new Date(date).getTime() / 1000;
+  return result.toString();
 };

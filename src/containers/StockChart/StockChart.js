@@ -1,90 +1,40 @@
 import React from "react";
 import Chart from "react-apexcharts";
 import { formatAPIRequest } from "../../shared/functions";
-import Button from "../../components/UI/Button/Button"
-import Input from "../../components/UI/Input/Input"
+import StockCharForm from "../../components/StockChartForm/StockChartForm";
 
 export default class StockChart extends React.Component {
   componentDidMount() {
-    const data = formatAPIRequest("AAPL", "15", "1572651390", "1572910590");
-    data
-      .then((data) => this.setState({ loading: false, data: data }))
-      .catch((error) => this.setState({ error: error}));
+    this.onSubmitFormHandler = this.onSubmitFormHandler.bind(this)
+    this.onSubmitFormHandler()
   }
+
+
   state = {
+    ticker: "",
     loading: true,
     error: null,
     data: [],
-    inputForm: {
-        ticker: {
-            elementType: 'input',
-            elementConfig: {
-                type: 'text',
-                placeholder: 'Ticker Symbol'
-            },
-            value: '',
-            label: 'Ticker',
-            validation: {
-                required: true,
-                isEmail: true,
-            },
-            valid: false,
-            touched: false
-        },
-        startDate: {
-            elementType: 'input',
-            elementConfig: {
-                type: 'date',
-                placeholder: 'Start Date'
-            },
-            value: '',
-            label: 'Start Date',
-            validation: {
-                required: true,
-                minLength: 6,
-            },
-            valid: false,
-            touched: false
-        },
-        endDate: {
-            elementType: 'input',
-            elementConfig: {
-                type: 'date',
-                placeholder: 'End Date'
-            },
-            value: '',
-            label: 'End Date',
-            validation: {
-                required: true,
-                minLength: 6,
-            },
-            valid: false,
-            touched: false
-        },
-        timeFrame: {
-            elementType: 'select',
-            elementConfig: {
-                options: [
-                    {value: '1', displayValue: '1'},
-                    {value: '5', displayValue: '5'},
-                    {value: '15', displayValue: '15'},
-                    {value: '30', displayValue: '30'},
-                    {value: '60', displayValue: '60'},
-                    {value: 'D', displayValue: 'D'},
-                    {value: 'W', displayValue: 'W'},
-                    {value: 'M', displayValue: 'M'},
-                ]
-            },
-            value: '30',
-            validation: {
-                required: true
-            },
+    initialGraph: {
+      ticker : "EPZM",
+      timeFrame : "15",
+      startDate : "1572651390",
+      endDate : "1573910590",
+    }
+  };
 
-           
-        },
+  onSubmitFormHandler(formValues = this.state.initialGraph) {
+    const data = formatAPIRequest(
+      formValues.ticker,
+      formValues.timeFrame,
+      formValues.startDate,
+      formValues.endDate
+    );
+    data
+      .then((data) => this.setState({ loading: false, data: data, ticker: formValues.ticker }))
+      .catch((error) => this.setState({ error: error }));
+  }
 
-    },
-}
   render() {
     const options = {
       chart: {
@@ -92,7 +42,7 @@ export default class StockChart extends React.Component {
         height: 350,
       },
       title: {
-        text: "AAPL",
+        text: this.state.ticker,
         align: "left",
       },
       xaxis: {
@@ -104,52 +54,28 @@ export default class StockChart extends React.Component {
         },
       },
     };
+
     let customChart = null;
-    if (!this.state.loading ) {
-        console.log(this.state.data)
-        const final = [
-            {
-                data : this.state.data
-            }
-        ]  
-        customChart = <Chart
+    if (!this.state.loading) {
+      const final = [
+        {
+          data: this.state.data,
+        },
+      ];
+      customChart = (
+        <Chart
           options={options}
           series={final}
           type="candlestick"
           height={350}
         />
+      );
     }
-
-    const formElementsArray= []
-    for(let key in this.state.inputForm){
-        formElementsArray.push({
-            id: key,
-            config: this.state.inputForm[key]
-        })
-    }
-
-    let form = (
-            <form onSubmit={this.orderHandler}>
-                {formElementsArray.map((formElement, key) =>{
-                    return <Input 
-                        key={formElement.id}
-                        elementType={formElement.config.elementType}
-                        elementConfig={formElement.config.elementConfig}
-                        invalid={!formElement.config.valid}
-                        shouldValidate={formElement.config.validation}
-                        value={formElement.config.value} 
-                        touched={formElement.config.touched}
-                        changed={(event) => this.inputChangedHandler(event, formElement.id)}/>
-                })}
-                <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
-                <Button btnType="Danger" clicked={this.cancelHandler}>CANCEL</Button>
-            </form>
-    )
 
     return (
       <div>
-        {form}
         {customChart}
+        <StockCharForm formSubmit={this.onSubmitFormHandler} />
       </div>
     );
   }
