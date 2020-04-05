@@ -72,6 +72,7 @@ export default class Stocks extends React.Component{
         )
     }
     render(){
+        console.log(this.state)
         return(
             <div style={{height: "500px"}}>
                 <Stock data={this.state} description={this.state.description}></Stock>

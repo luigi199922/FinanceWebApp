@@ -15,9 +15,6 @@ export default class Options extends React.Component{
         loading: true
     }
     componentDidMount(){
-        this.request(this.state.url)
-    }
-    componentDidMount(){
         axios.get(this.state.baseURL).then(
             res => (
                 this.setState({
