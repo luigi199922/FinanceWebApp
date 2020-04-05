@@ -1,4 +1,5 @@
 .MainContainer{
     min-height: 600px;
-    background-color: none;
+    background-color: white;
+    margin-top: 100px;
 }
