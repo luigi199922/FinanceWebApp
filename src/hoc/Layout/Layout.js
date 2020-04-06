@@ -4,10 +4,10 @@ import MainContainer from '../../components/MainContainer/MainContainer'
 import BaseRouter from '../../routes'
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar'
 
-const Layout = () => {
+const Layout = (props) => {
     return (
         <React.Fragment>
-            <Toolbar />
+            <Toolbar  socketData={props.socketData}/>
                 <MainContainer>
                     <BaseRouter />  
                 </MainContainer>    

@@ -25,18 +25,7 @@ class COVID extends React.Component {
     // Connection opened -> Subscribe
     socket.addEventListener("open", function (event) {
       socket.send(JSON.stringify({ type: "subscribe", symbol: "AAPL" }));
-      socket.send(
-        JSON.stringify({ type: "subscribe", symbol: "BINANCE:BTCUSDT" })
-      );
-      socket.send(
-        JSON.stringify({ type: "subscribe", symbol: "IC MARKETS:1" })
-      );
     });
-
-    // Unsubscribe
-    var unsubscribe = function (symbol) {
-      socket.send(JSON.stringify({ type: "unsubscribe", symbol: symbol }));
-    };
 
     let covid = null;
     if (!this.state.loading) {
@@ -50,14 +39,25 @@ class COVID extends React.Component {
         );
       });
     }
+    const updateStocketState = (event) => {
+      const data = JSON.parse(event.data);
+      console.log("Message from server ", data);
+      this.setState({ socket: data });
+    };
     let socketstate = null;
     // Listen for messages
-    socket.addEventListener("message", function (event) {
-      console.log("Message from server ", event.data);
-      socketstate = <p>{event.data.p}</p>;
-    });
+    socket.addEventListener("message", (event) => updateStocketState(event));
+    if (this.state.socket.data) {
+      socketstate = (
+        <div>
+          <p>{this.state.socket.data[0].p}</p>
+          <p>{this.state.socket.data[0].s}</p>
+        </div>
+      );
+    }
     return (
       <div>
+        {socketstate}
         {covid}
         <div style={{ marginTop: "10px" }}>{socketstate}</div>
       </div>
