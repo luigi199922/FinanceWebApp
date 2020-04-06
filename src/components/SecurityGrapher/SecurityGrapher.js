@@ -16,10 +16,10 @@ export default class SecurityGrapher extends React.Component {
     error: null,
     data: [],
     initialGraph: {
-      ticker : "EPZM",
-      timeFrame : "15",
-      startDate : "1572651390",
-      endDate : "1573910590",
+      ticker : "",
+      timeFrame : "",
+      startDate : "",
+      endDate : "",
     }
   };
 
@@ -75,7 +75,7 @@ export default class SecurityGrapher extends React.Component {
     return (
       <div>
         {customChart}
-        <StockCharForm forex={this.props.forex} formSubmit={this.onSubmitFormHandler} />
+        <StockCharForm instrument={this.props.instrument} formSubmit={this.onSubmitFormHandler} />
       </div>
     );
   }

@@ -18,14 +18,21 @@ const asyncOptionsT = asyncComponent(() => {
 const asyncForex = asyncComponent(() => {
   return import("./containers/Forex/Forex");
 });
+const asyncBinance= asyncComponent(() => {
+  return import("./containers/Binance/Binance");
+});
+const asyncInstrumentChart= asyncComponent(() => {
+  return import("./containers/InstrumentChart/InstrumentChart");
+});
 const BaseRouter = () => {
   return (
     <Switch>
       <Route exact path="/" component={asyncCOVID} />
       <Route exact path="/options" component={asyncOptionsT} />
-      <Route exact path="/stocks" component={asyncStockChart} />
+      <Route exact path="/stock" component={asyncInstrumentChart} />
       <Route exact path="/stock-analysis" component={asyncStockAnalysis} />
-      <Route exact path="/forex" component={asyncForex} />
+      <Route exact path="/forex" component={asyncInstrumentChart} />
+      <Route exact path="/crypto" component={asyncInstrumentChart} />
     </Switch>
   );
 };

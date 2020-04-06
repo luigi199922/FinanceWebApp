@@ -4,7 +4,7 @@ import SecurityGrapher from "../../components/SecurityGrapher/SecurityGrapher"
 export default class StockChart extends React.Component {
     render(){
         return(
-            <SecurityGrapher instrument="forex" />
+            <SecurityGrapher instrument="crypto" />
         )
     }
 }

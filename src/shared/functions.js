@@ -14,7 +14,7 @@ export const formatAPIRequest = (symbol, timeframe, startDate, endDate) => {
       "&to=" +
       endDate +
       API_KEY;
-      console.log("formatAPIRequest" + url)
+    console.log("formatAPIRequest" + url);
     const result = [];
     axios
       .get(url)
@@ -27,11 +27,11 @@ export const formatAPIRequest = (symbol, timeframe, startDate, endDate) => {
 
         for (let i = 0; i < o.length; i++) {
           result.push({
-            x: new Date(t[i]) *1000,
+            x: new Date(t[i]) * 1000,
             y: [o[i], h[i], l[i], c[i]],
           });
         }
-        console.log(result)
+        console.log(result);
         resolve(result);
       })
       .catch((error) => {
@@ -41,15 +41,26 @@ export const formatAPIRequest = (symbol, timeframe, startDate, endDate) => {
   });
 };
 
-export const getTickerSymbols = (forex = false) => {
-  let type = "stock"
-  let exchange = "US"
-  if(forex){
-    type = "forex"
-    exchange = "oanda"
+export const getTickerSymbols = (instrument) => {
+  let type = instrument;
+  let exchange = ""
+  switch (type) {
+    case "stock":
+      exchange = "US";
+      break;
+    case "forex":
+      exchange =  "oanda";
+      break;
+    case "crypto":
+      exchange = "binance"
   }
   return new Promise((resolve, reject) => {
-    const url = "https://finnhub.io/api/v1/" + type + "/symbol?exchange=" + exchange + API_KEY;
+    const url =
+      "https://finnhub.io/api/v1/" +
+      type +
+      "/symbol?exchange=" +
+      exchange +
+      API_KEY;
     axios
       .get(url)
       .then((res) => {
@@ -100,7 +111,12 @@ export const convertFromDateToUNIXTimeStamp = (date) => {
   return result.toString();
 };
 
-export const getTickerExpectedReturns = (symbol, timeframe, startDate, endDate) => {
+export const getTickerExpectedReturns = (
+  symbol,
+  timeframe,
+  startDate,
+  endDate
+) => {
   return new Promise((resolve, reject) => {
     const url =
       base +
@@ -118,20 +134,20 @@ export const getTickerExpectedReturns = (symbol, timeframe, startDate, endDate) 
         var sum = 0;
         var divisor = 0;
         const c = res.data.c;
-        console.log(c)
-        const returnsArray =[]
+        console.log(c);
+        const returnsArray = [];
         for (let i = 0; i < c.length; i++) {
-          if(i !== c.length - 1){
-            sum += ((c[i+1] - c[i])/c[i]) * 100;
-            returnsArray.push(((c[i+1] - c[i])/c[i]) * 100)
+          if (i !== c.length - 1) {
+            sum += ((c[i + 1] - c[i]) / c[i]) * 100;
+            returnsArray.push(((c[i + 1] - c[i]) / c[i]) * 100);
             divisor += 1;
           }
         }
-        const average = (sum / divisor);
-        const stDev = standardDeviation(returnsArray)
-        console.log( returnsArray)
-        console.log("stDev" + stDev)
-        console.log("ER" + average)
+        const average = sum / divisor;
+        const stDev = standardDeviation(returnsArray);
+        console.log(returnsArray);
+        console.log("stDev" + stDev);
+        console.log("ER" + average);
         resolve([average, stDev]);
       })
       .catch((error) => {
@@ -143,10 +159,9 @@ export const getTickerExpectedReturns = (symbol, timeframe, startDate, endDate) 
 const standardDeviation = (arr, usePopulation = false) => {
   const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
   return Math.sqrt(
-    arr.reduce((acc, val) => acc.concat((val - mean) ** 2), []).reduce((acc, val) => acc + val, 0) /
+    arr
+      .reduce((acc, val) => acc.concat((val - mean) ** 2), [])
+      .reduce((acc, val) => acc + val, 0) /
       (arr.length - (usePopulation ? 0 : 1))
   );
 };
-
-
-

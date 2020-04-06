@@ -7,7 +7,7 @@ import classes from "./StockChartForm.module.css";
 
 class StockChartForm extends Component {
   componentDidMount() {
-    const tickersArray = getTickerSymbols(this.props.forex);
+    const tickersArray = getTickerSymbols(this.props.instrument);
     tickersArray
       .then((ticker) =>
         this.setState({
