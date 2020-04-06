@@ -89,20 +89,33 @@ export const getTickerExpectedReturns = (symbol, timeframe, startDate, endDate) 
         var divisor = 0;
         const c = res.data.c;
         console.log(c)
+        const returnsArray =[]
         for (let i = 0; i < c.length; i++) {
           if(i !== c.length - 1){
             sum += ((c[i+1] - c[i])/c[i]) * 100;
+            returnsArray.push(((c[i+1] - c[i])/c[i]) * 100)
             divisor += 1;
           }
         }
         const average = (sum / divisor);
-        console.log(average)
-        resolve(average);
+        const stDev = standardDeviation(returnsArray)
+        console.log( returnsArray)
+        console.log("stDev" + stDev)
+        console.log("ER" + average)
+        resolve([average, stDev]);
       })
       .catch((error) => {
         reject(error);
       });
   });
+};
+
+const standardDeviation = (arr, usePopulation = false) => {
+  const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
+  return Math.sqrt(
+    arr.reduce((acc, val) => acc.concat((val - mean) ** 2), []).reduce((acc, val) => acc + val, 0) /
+      (arr.length - (usePopulation ? 0 : 1))
+  );
 };
 
 
