@@ -14,6 +14,7 @@ export const formatAPIRequest = (symbol, timeframe, startDate, endDate) => {
       "&to=" +
       endDate +
       API_KEY;
+      console.log("formatAPIRequest" + url)
     const result = [];
     axios
       .get(url)
@@ -81,18 +82,20 @@ export const getTickerExpectedReturns = (symbol, timeframe, startDate, endDate) 
       "&to=" +
       endDate +
       API_KEY;
-    console.log(url)
     axios
       .get(url)
       .then((res) => {
-        let sum = 0;
+        var sum = 0;
+        var divisor = 0;
         const c = res.data.c;
+        console.log(c)
         for (let i = 0; i < c.length; i++) {
-          if(i >= c.length - 1){
-            sum += c[i + 1] - c[i]/c[i + 1] * 100;
+          if(i !== c.length - 1){
+            sum += ((c[i+1] - c[i])/c[i]) * 100;
+            divisor += 1;
           }
         }
-        const average = sum / c.length;
+        const average = (sum / divisor);
         console.log(average)
         resolve(average);
       })
