@@ -56,7 +56,6 @@ export const getTickerSymbols = () => {
             displayValue: t + " " + data[i].description,
           });
         }
-        console.log(tickers)
         resolve(tickers);
       })
       .catch((error) => {
@@ -69,3 +68,39 @@ export const convertFromDateToUNIXTimeStamp = (date) => {
   const result = new Date(date).getTime() / 1000;
   return result.toString();
 };
+
+export const getTickerExpectedReturns = (symbol, timeframe, startDate, endDate) => {
+  return new Promise((resolve, reject) => {
+    const url =
+      base +
+      symbol +
+      "&resolution=" +
+      timeframe +
+      "&from=" +
+      startDate +
+      "&to=" +
+      endDate +
+      API_KEY;
+    console.log(url)
+    axios
+      .get(url)
+      .then((res) => {
+        let sum = 0;
+        const c = res.data.c;
+        for (let i = 0; i < c.length; i++) {
+          if(i >= c.length - 1){
+            sum += c[i + 1] - c[i]/c[i + 1] * 100;
+          }
+        }
+        const average = sum / c.length;
+        console.log(average)
+        resolve(average);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+
+
