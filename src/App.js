@@ -18,14 +18,15 @@ class App extends Component {
 
     const updateStocketState = (event) => {
       const data = JSON.parse(event.data);
-      console.log("Message from server ", data);
+      // console.log("Message from server ", data);
       this.setState({ socket: data });
     };
 
     socket.addEventListener("message", (event) => updateStocketState(event));
     let socketstate = null
+    
     if (this.state.socket.data) {
-      socketstate = this.state.socket.data[0].s
+      socketstate = this.state.socket
     }
     return (
       <BrowserRouter>
