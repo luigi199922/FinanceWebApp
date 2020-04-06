@@ -7,6 +7,7 @@ const NavigationItems = (props) => (
         <NavigationItem link="/">FINALYTICS</NavigationItem>
         <NavigationItem link="/options">Options</NavigationItem>
         <NavigationItem link="/stocks">Stocks</NavigationItem>
+        <NavigationItem link="/forex">Forex</NavigationItem>
     </ul>
 )
 export default NavigationItems

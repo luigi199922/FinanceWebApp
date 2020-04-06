@@ -41,7 +41,37 @@ export const formatAPIRequest = (symbol, timeframe, startDate, endDate) => {
   });
 };
 
-export const getTickerSymbols = () => {
+export const getTickerSymbols = (forex = false) => {
+  let type = "stock"
+  let exchange = "US"
+  if(forex){
+    type = "forex"
+    exchange = "oanda"
+  }
+  return new Promise((resolve, reject) => {
+    const url = "https://finnhub.io/api/v1/" + type + "/symbol?exchange=" + exchange + API_KEY;
+    axios
+      .get(url)
+      .then((res) => {
+        const tickers = [];
+        const data = res.data;
+        for (let i = 0; i < data.length; i++) {
+          const t = data[i].symbol;
+          tickers.push({
+            key: i,
+            value: t,
+            displayValue: t + " " + data[i].description,
+          });
+        }
+        resolve(tickers);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const getForexSymbols = () => {
   return new Promise((resolve, reject) => {
     const url = "https://finnhub.io/api/v1/stock/symbol?exchange=US" + API_KEY;
     axios

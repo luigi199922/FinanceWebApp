@@ -75,7 +75,7 @@ export default class StockChart extends React.Component {
     return (
       <div>
         {customChart}
-        <StockCharForm formSubmit={this.onSubmitFormHandler} />
+        <StockCharForm forex={false} formSubmit={this.onSubmitFormHandler} />
       </div>
     );
   }

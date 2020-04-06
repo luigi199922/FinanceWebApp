@@ -8,22 +8,7 @@ export default class Stocks extends React.Component {
     this.onSubmitFormHandler();
   }
   onSubmitFormHandler(formValues = this.state.initialTicker) {
-    const data = getTickerExpectedReturns(
-      formValues.ticker,
-      formValues.timeFrame,
-      formValues.startDate,
-      formValues.endDate
-    );
-    data
-      .then(([average, stDev]) =>
-        this.setState({
-          loading: false,
-          expectedReturns: average,
-          stDev: stDev,
-          ticker: formValues.ticker,
-        })
-      )
-      .catch((error) => this.setState({ error: error }));
+    console.log(formValues)
   }
 
   state = {
@@ -55,7 +40,7 @@ export default class Stocks extends React.Component {
     return (
       <div>
         {stockInfo}
-        <StockChartForm forex={false} formSubmit={this.onSubmitFormHandler} />
+        <StockChartForm forex={true}formSubmit={this.onSubmitFormHandler} />
       </div>
     );
   }
