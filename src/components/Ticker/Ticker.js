@@ -20,17 +20,18 @@ const TickerOptions = ({
 
   const [instrumentArray, setInstrumentArray] = useState([]);
 
-  useEffect(() => {
+  useEffect((instrumentArray) => {
     console.log("Use Effect Called")
     const tickersArray = getTickerSymbols(path.slice(1));
     tickersArray.then((ticker) => setInstrumentArray(ticker));
-    console.log(instrumentArray);
+    console.log(path)
   }, [path]);
-  console.log(path)
+
 
   const elementConfig = {
     options: instrumentArray
   }
+  
   let input = null
   if(instrumentArray.length > 0){
    input =  <Input

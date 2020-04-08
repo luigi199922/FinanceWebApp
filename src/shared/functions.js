@@ -52,7 +52,10 @@ export const getTickerSymbols = (instrument) => {
       exchange =  "oanda";
       break;
     case "crypto":
-      exchange = "binance"
+      exchange = "binance";
+      break;
+    default: 
+      exchange = "US"
   }
   return new Promise((resolve, reject) => {
     const url =

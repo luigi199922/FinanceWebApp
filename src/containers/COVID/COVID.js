@@ -24,6 +24,7 @@ class COVID extends React.Component {
       covid = this.state.us.map((state, key) => {
         return (
           <StateCard
+            key={state.state}
             state={state.state}
             cases={state.case}
             deaths={state.death}

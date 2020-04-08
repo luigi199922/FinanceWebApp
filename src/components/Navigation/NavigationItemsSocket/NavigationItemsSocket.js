@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import NavigationItem from "../NavigationItems/NavigationItem/NavigationItem";
 import { KEY } from "../../../shared/key";
 
-const NavigationItemsSocket = (props) => {
+const NavigationItemsSocket = () => {
   const socket = new WebSocket("wss://ws.finnhub.io?token=" + KEY);
 
   const [ticker, setTicker] = useState({});
@@ -14,10 +14,8 @@ const NavigationItemsSocket = (props) => {
 
   const updateStocketState = (event) => {
     const data = JSON.parse(event.data);
-    console.log("Message from server ", data);
-    const TickerObject = data.data[0];
-    if(TickerObject){
-      setTicker(TickerObject);
+    if(data.data !== undefined){
+      setTicker(data.data[0]);
     }
     
   };
