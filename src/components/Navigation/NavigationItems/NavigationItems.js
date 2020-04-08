@@ -9,6 +9,7 @@ const NavigationItems = (props) => (
         <NavigationItem link="/stock">Stocks</NavigationItem>
         <NavigationItem link="/forex">Forex</NavigationItem>
         <NavigationItem link="/crypto">Crypto</NavigationItem>
+        <NavigationItem link="/economic">Economic</NavigationItem>
     </ul>
 )
 export default NavigationItems

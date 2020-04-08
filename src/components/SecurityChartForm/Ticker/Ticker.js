@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router";
-import { getTickerSymbols } from "../../shared/functions";
-import Input from '../UI/Input/Input'
+import { getTickerSymbols } from "../../../shared/functions";
+import Input from '../../UI/Input/Input'
 
 const TickerOptions = ({
   ticker: {

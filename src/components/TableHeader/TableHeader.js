@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TableHeader = props => {
+const TableHeader = () => {
     return(
         <thead>
         <tr>

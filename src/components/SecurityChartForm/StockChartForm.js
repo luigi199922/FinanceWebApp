@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import Button from "../../components/UI/Button/Button";
-import Input from "../../components/UI/Input/Input";
+import Button from "../UI/Button/Button";
+import Input from "../UI/Input/Input";
 import { updateObject, checkValidity } from "../../shared/utility";
 import { convertFromDateToUNIXTimeStamp } from "../../shared/functions";
 import classes from "./StockChartForm.module.css";
-import TickerOptions from "../Ticker/Ticker";
+import TickerOptions from "./Ticker/Ticker";
 
-class StockChartForm extends Component {
+class SecurityChartForm extends Component {
   componentDidMount() {}
   state = {
     inputForm: {
@@ -168,4 +168,4 @@ class StockChartForm extends Component {
   }
 }
 
-export default StockChartForm;
+export default SecurityChartForm;

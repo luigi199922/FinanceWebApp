@@ -1,14 +1,14 @@
 import React from "react";
 import Chart from "react-apexcharts";
 import { formatAPIRequest } from "../../shared/functions";
-import StockCharForm from "../../components/StockChartForm/StockChartForm";
+import SecurityChartForm from "../../components/StockChartForm/StockChartForm";
 
 export default class SecurityGrapher extends React.Component {
+  
   componentDidMount() {
-    this.onSubmitFormHandler = this.onSubmitFormHandler.bind(this)
-    this.onSubmitFormHandler()
+    this.onSubmitFormHandler = this.onSubmitFormHandler.bind(this);
+    this.onSubmitFormHandler();
   }
-
 
   state = {
     ticker: "",
@@ -16,11 +16,11 @@ export default class SecurityGrapher extends React.Component {
     error: null,
     data: [],
     initialGraph: {
-      ticker : "",
-      timeFrame : "",
-      startDate : "",
-      endDate : "",
-    }
+      ticker: "",
+      timeFrame: "",
+      startDate: "",
+      endDate: "",
+    },
   };
 
   onSubmitFormHandler(formValues = this.state.initialGraph) {
@@ -31,7 +31,9 @@ export default class SecurityGrapher extends React.Component {
       formValues.endDate
     );
     data
-      .then((data) => this.setState({ loading: false, data: data, ticker: formValues.ticker }))
+      .then((data) =>
+        this.setState({ loading: false, data: data, ticker: formValues.ticker })
+      )
       .catch((error) => this.setState({ error: error }));
   }
 
@@ -75,7 +77,10 @@ export default class SecurityGrapher extends React.Component {
     return (
       <div>
         {customChart}
-        <StockCharForm instrument={this.props.instrument} formSubmit={this.onSubmitFormHandler} />
+        <SecurityChartForm
+          instrument={this.props.instrument}
+          formSubmit={this.onSubmitFormHandler}
+        />
       </div>
     );
   }

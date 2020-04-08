@@ -11,8 +11,11 @@ const asyncCOVID = asyncComponent(() => {
 const asyncOptionsT = asyncComponent(() => {
   return import("./containers/Options/OptionsT");
 });
-const asyncInstrumentChart= asyncComponent(() => {
+const asyncInstrumentChart = asyncComponent(() => {
   return import("./containers/InstrumentChart/InstrumentChart");
+});
+const asyncEconomicData = asyncComponent(() => {
+  return import("./containers/Economic/Economic");
 });
 const BaseRouter = () => {
   return (
@@ -23,6 +26,7 @@ const BaseRouter = () => {
       <Route exact path="/stock-analysis" component={asyncStockAnalysis} />
       <Route exact path="/forex" component={asyncInstrumentChart} />
       <Route exact path="/crypto" component={asyncInstrumentChart} />
+      <Route exact path="/economic" component={asyncEconomicData} />
     </Switch>
   );
 };
