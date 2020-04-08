@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import NavigationItem from "../NavigationItems/NavigationItem/NavigationItem";
-import { KEY } from "../../../shared/key";
+import NavigationItem from "../NavigationItem/NavigationItem";
+import { KEY } from "../../../../shared/key";
 
-const NavigationItemsSocket = () => {
+const NavigationItemSocket = () => {
   const socket = new WebSocket("wss://ws.finnhub.io?token=" + KEY);
 
   const [ticker, setTicker] = useState({});
@@ -34,4 +34,4 @@ const NavigationItemsSocket = () => {
   return <ul>{socketData}</ul>;
 };
 
-export default NavigationItemsSocket;
+export default NavigationItemSocket;

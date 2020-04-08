@@ -1,10 +1,10 @@
 import React from "react";
 import Chart from "react-apexcharts";
 import { formatAPIRequest } from "../../shared/functions";
-import SecurityChartForm from "../../components/StockChartForm/StockChartForm";
+import SecurityChartForm from "../../components/SecurityChartForm/SecurityChartForm";
 
 export default class SecurityGrapher extends React.Component {
-  
+
   componentDidMount() {
     this.onSubmitFormHandler = this.onSubmitFormHandler.bind(this);
     this.onSubmitFormHandler();

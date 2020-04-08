@@ -1,6 +1,6 @@
 import React from "react";
 import { getTickerExpectedReturns } from "../../shared/functions";
-import StockChartForm from "../../components/StockChartForm/StockChartForm";
+import SecurityChartForm from "../../components/SecurityChartForm/SecurityChartForm";
 
 export default class Stocks extends React.Component {
   componentDidMount() {
@@ -55,7 +55,7 @@ export default class Stocks extends React.Component {
     return (
       <div>
         {stockInfo}
-        <StockChartForm forex={false} formSubmit={this.onSubmitFormHandler} />
+        <SecurityChartForm forex={false} formSubmit={this.onSubmitFormHandler} />
       </div>
     );
   }
