@@ -1,19 +1,13 @@
-import React, { Component } from "react";
+import React, {useState, useEffect } from "react";
 import SecurityGrapher from "../../components/SecurityGrapher/SecurityGrapher"
-import {withRouter} from 'react-router'
 
-class InstrumentChart extends Component {
-    componentDidMount(){
-        this.setState(this.props.match.params)
-    }
-    state = ""
+const InstrumentChart = props => {
+
+    return(
+        <SecurityGrapher instrument={props.match.path.slice(1)}/>
+    )
+        
+        
     
-    render(){
-        const instrument = this.props.match.path.slice(1)
-        console.log(instrument)
-        return(
-            <SecurityGrapher instrument={instrument}/>
-        )
-    }
 }
-export default withRouter(InstrumentChart )
+export default InstrumentChart

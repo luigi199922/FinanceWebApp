@@ -6,24 +6,9 @@ import { getTickerSymbols, convertFromDateToUNIXTimeStamp } from "../../shared/f
 import classes from "./StockChartForm.module.css";
 
 class StockChartForm extends Component {
+
   componentDidMount() {
-    const tickersArray = getTickerSymbols(this.props.instrument);
-    tickersArray
-      .then((ticker) =>
-        this.setState({
-          ...this.state,
-          inputForm: {
-            ...this.state.inputForm,
-            ticker: {
-              ...this.state.inputForm.ticker,
-              elementConfig: {
-                options: ticker,
-              },
-            },
-          },
-        })
-      )
-      .catch((error) => this.setState({ error: error }));
+
   }
   state = {
     inputForm: {
@@ -90,6 +75,29 @@ class StockChartForm extends Component {
       },
     },
   };
+
+  componentDidUpdate(){
+  }
+
+  updateState(){
+    const tickersArray = getTickerSymbols(this.props.instrument);
+    tickersArray
+      .then((ticker) =>
+        this.setState({
+          ...this.state,
+          inputForm: {
+            ...this.state.inputForm,
+            ticker: {
+              ...this.state.inputForm.ticker,
+              elementConfig: {
+                options: ticker,
+              },
+            },
+          },
+        })
+      )
+      .catch((error) => this.setState({ error: error }));
+  }
 
   onSubmitHandler = (event) => {
     event.preventDefault();

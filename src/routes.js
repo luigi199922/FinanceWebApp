@@ -2,7 +2,6 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import asyncComponent from "./hoc/asyncComponent/asyncComponent";
 
-
 const asyncStockAnalysis = asyncComponent(() => {
   return import("./containers/Stocks/Stocks");
 });
