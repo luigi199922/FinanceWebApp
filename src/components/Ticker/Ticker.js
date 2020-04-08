@@ -1,28 +1,43 @@
-import React, {useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
+import { withRouter } from "react-router";
+import { getTickerSymbols } from "../../shared/functions";
 
-const TickerOption = ({ instrument }) => {
-
-  const [instrument, setInstrument] = useState(instrument)
-  const [instrumentArray, setInstrumentArray] = useState([])
+const TickerOption = ({
+  ticker: {
+    id,
+    elementType,
+    valid,
+    validation,
+    value,
+    touched,
+    label,
+  },
+  inputChangedHandler
+}) => {
     
-  useEffect(() => {
-      setInstrument(props.match.path.slice(1));
-  }, [instrument]);
-  console.log(instrument)
+  const [instrument, setInstrument] = useState(instrument);
+  const [instrumentArray, setInstrumentArray] = useState([]);
 
-    return (
-        <Input
-              key={instrument}
-              elementType="select"
-              elementConfig={instrumentArray}
-              invalid={false}
-              shouldValidate={{required: true}}
-              value={formElement.config.value}
-              touched={formElement.config.touched}
-              label={formElement.config.label}
-              changed={(event) =>
-                this.inputChangedHandler(event, formElement.id)
-              }
-            />
-    )
-}
+  useEffect(() => {
+    setInstrument(props.match.path.slice(1))
+    const tickersArray = getTickerSymbols(props.match.path.slice(1));
+    tickersArray.then((ticker) => setInstrumentArray(ticker));
+  }, [instrument]);
+  console.log(instrument);
+
+  return (
+    <Input
+      key={id}
+      elementType={elementType}
+      elementConfig={instrumentArray}
+      invalid={valid}
+      shouldValidate={validation}
+      value={value}
+      touched={touched}
+      label={label}
+      changed={(event) => inputChangedHandler(event, id)}
+    />
+  );
+};
+
+export default withRouter(TickerOption);
