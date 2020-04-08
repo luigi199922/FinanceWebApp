@@ -11,7 +11,7 @@ const toolbar = (props) => {
         <NavigationItems userId={props.email} />
       </nav>
       <div className={classes.DesktopOnly}>
-        <NavigationItemsSocket socketData={props.socketData} />
+        {/* <NavigationItemsSocket /> */}
       </div>
     </header>
   );

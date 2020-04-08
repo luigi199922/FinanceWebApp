@@ -7,7 +7,7 @@ import Toolbar from '../../components/Navigation/Toolbar/Toolbar'
 const Layout = (props) => {
     return (
         <React.Fragment>
-            <Toolbar  socketData={props.socketData}/>
+            <Toolbar />
                 <MainContainer>
                     <BaseRouter />  
                 </MainContainer>    
