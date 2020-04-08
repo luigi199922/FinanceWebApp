@@ -4,6 +4,7 @@ import NavigationItems from "../NavigationItems/NavigationItems";
 import NavigationItemsSocket from "../NavigationItemsSocket/NavigationItemsSocket";
 
 const toolbar = (props) => {
+  
   return (
     <header className={classes.Toolbar}>
       
@@ -11,7 +12,7 @@ const toolbar = (props) => {
         <NavigationItems userId={props.email} />
       </nav>
       <div className={classes.DesktopOnly}>
-        {/* <NavigationItemsSocket /> */}
+        <NavigationItemsSocket />
       </div>
     </header>
   );
