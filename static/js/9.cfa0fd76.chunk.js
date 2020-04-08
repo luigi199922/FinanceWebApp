@@ -1,0 +1,2 @@
+(this["webpackJsonpfinance-api"]=this["webpackJsonpfinance-api"]||[]).push([[9],{85:function(n,e,i){"use strict";i.r(e);var a=i(0),c=i.n(a);e.default=function(){return c.a.createElement("div",null,"Economic")}}}]);
+//# sourceMappingURL=9.cfa0fd76.chunk.js.map

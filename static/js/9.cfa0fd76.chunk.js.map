@@ -1,0 +1,1 @@
+{"version":3,"sources":["containers/Economic/Economic.jsx"],"names":["Economic"],"mappings":"iHAAA,2BASeA,UAPE,WACb,OACI","file":"static/js/9.cfa0fd76.chunk.js","sourcesContent":["import React from 'react'\n\nconst Economic = () => {\n    return(\n        <div>\n            Economic\n        </div>\n    )\n}\nexport default Economic"],"sourceRoot":""}
