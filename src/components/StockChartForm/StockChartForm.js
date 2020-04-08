@@ -66,7 +66,7 @@ class StockChartForm extends Component {
       elementConfig: {
         options: [],
       },
-      value: "A",
+      value: "",
       validation: {
         required: true,
       },
@@ -82,6 +82,7 @@ class StockChartForm extends Component {
         formElementIdentifier
       ].value;
     }
+    formValues.ticker = this.state.ticker.value
     formValues.startDate = convertFromDateToUNIXTimeStamp(formValues.startDate);
     formValues.endDate = convertFromDateToUNIXTimeStamp(formValues.endDate);
     console.log(formValues);
@@ -112,24 +113,15 @@ class StockChartForm extends Component {
     this.setState({ inputForm: updatedOrderForm, formIsValid: formIsValid });
   };
 
-  inputTickerChangedHandler = (event, inputIdentifier) => {
+  inputTickerChangedHandler = (event) => {
     const updatedFormElement = updateObject(
-      this.state.inputIdentifier,
+      this.state.ticker,
       {
+        ...this.state.ticker,
         value: event.target.value,
       }
     );
-    const updatedOrderForm = updateObject(this.state.inputForm, {
-      [inputIdentifier]: updatedFormElement,
-    });
-    let formIsValid = true;
-    for (let inputIdentifier in updatedOrderForm) {
-      if (updatedOrderForm[inputIdentifier].valid === false) {
-        formIsValid = false;
-      }
-    }
-
-    this.setState({ inputForm: updatedOrderForm, formIsValid: formIsValid });
+    this.setState({ ticker: updatedFormElement});
   };
 
   render() {
