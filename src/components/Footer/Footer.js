@@ -1,5 +1,7 @@
 import React from "react";
 import classes from "./Footer.module.css";
+import github from "../../resources/logos/github.png";
+const logoWidth = 40;
 
 const Footer = () => {
   return (
@@ -7,13 +9,31 @@ const Footer = () => {
       <div className="container-fluid text-center text-md-left">
         <div className="row">
           <div className="col-md-6 mt-md-0 mt-3">
-            <h5>Footer Content</h5>
+            <h5>About</h5>
             <p>
-              Here you can use rows and columns to organize your footer content.
+              Finalytics is a side project created by Luis Preciado in React
+              that visualizes data coming from Finnhub.io's API. The
+              application's purpose is to make sense of economic and financial
+              data for investors.
             </p>
           </div>
           <hr className="clearfix w-100 d-md-none pb-3" />
-          <div className="col-md-3 mb-md-0 mb-3">
+          <div className={classes.IconContainer}>
+            <ul className={classes.Icons}>
+              <li className="link d-inline-block">
+                <a
+                  href="https://github.com/luigi199922"
+                  rel="noopener noreferrer"
+                  className="LinkU"
+                  target="_blank"
+                >
+                  <img src={github} width={logoWidth} alt="github" />
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* <div className="col-md-3 mb-md-0 mb-3">
             <h5 className="text-uppercase">Links</h5>
             <ul className="list-unstyled">
               <li>
@@ -46,12 +66,8 @@ const Footer = () => {
                 <a href="#!">Link 4</a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
-      </div>
-      <div className="footer-copyright text-center py-3">
-        2020
-        <p>Luis Preciado</p>
       </div>
     </footer>
   );
