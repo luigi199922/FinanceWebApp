@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router";
 import { getTickerSymbols } from "../../shared/functions";
+import Input from '../UI/Input/Input'
 
-const TickerOption = ({
+const TickerOptions = ({
   ticker: {
-    id,
     elementType,
     valid,
     validation,
@@ -12,32 +12,44 @@ const TickerOption = ({
     touched,
     label,
   },
+  match : {
+    path,
+  },
   inputChangedHandler
 }) => {
-    
-  const [instrument, setInstrument] = useState(instrument);
+
   const [instrumentArray, setInstrumentArray] = useState([]);
 
   useEffect(() => {
-    setInstrument(props.match.path.slice(1))
-    const tickersArray = getTickerSymbols(props.match.path.slice(1));
+    console.log("Use Effect Called")
+    const tickersArray = getTickerSymbols(path.slice(1));
     tickersArray.then((ticker) => setInstrumentArray(ticker));
-  }, [instrument]);
-  console.log(instrument);
+    console.log(instrumentArray);
+  }, [path]);
+  console.log(path)
 
+  const elementConfig = {
+    options: instrumentArray
+  }
+  let input = null
+  if(instrumentArray.length > 0){
+   input =  <Input
+    key="ticker"
+    elementType={elementType}
+    elementConfig={elementConfig}
+    invalid={valid}
+    shouldValidate={validation}
+    value={value}
+    touched={touched}
+    label={label}
+    changed={(event) => inputChangedHandler(event, "ticker")}
+  />
+  }
   return (
-    <Input
-      key={id}
-      elementType={elementType}
-      elementConfig={instrumentArray}
-      invalid={valid}
-      shouldValidate={validation}
-      value={value}
-      touched={touched}
-      label={label}
-      changed={(event) => inputChangedHandler(event, id)}
-    />
+    <React.Fragment>
+      {input}
+    </React.Fragment>
   );
 };
 
-export default withRouter(TickerOption);
+export default withRouter(TickerOptions);

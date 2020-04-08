@@ -5,20 +5,11 @@ import asyncComponent from "./hoc/asyncComponent/asyncComponent";
 const asyncStockAnalysis = asyncComponent(() => {
   return import("./containers/Stocks/Stocks");
 });
-const asyncStockChart = asyncComponent(() => {
-  return import("./containers/StockChart/StockChart");
-});
 const asyncCOVID = asyncComponent(() => {
   return import("./containers/COVID/COVID");
 });
 const asyncOptionsT = asyncComponent(() => {
   return import("./containers/Options/OptionsT");
-});
-const asyncForex = asyncComponent(() => {
-  return import("./containers/Forex/Forex");
-});
-const asyncBinance= asyncComponent(() => {
-  return import("./containers/Binance/Binance");
 });
 const asyncInstrumentChart= asyncComponent(() => {
   return import("./containers/InstrumentChart/InstrumentChart");

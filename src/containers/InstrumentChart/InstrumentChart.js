@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from "react";
+import React from "react";
 import SecurityGrapher from "../../components/SecurityGrapher/SecurityGrapher"
 
 const InstrumentChart = props => {

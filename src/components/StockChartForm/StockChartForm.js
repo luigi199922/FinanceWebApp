@@ -2,27 +2,14 @@ import React, { Component } from "react";
 import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/Input/Input";
 import { updateObject, checkValidity } from "../../shared/utility";
-import { getTickerSymbols, convertFromDateToUNIXTimeStamp } from "../../shared/functions";
+import { convertFromDateToUNIXTimeStamp } from "../../shared/functions";
 import classes from "./StockChartForm.module.css";
+import TickerOptions from "../Ticker/Ticker";
 
 class StockChartForm extends Component {
-
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
   state = {
     inputForm: {
-      ticker: {
-        elementType: "select",
-        elementConfig: {
-          options: [],
-        },
-        value: "A",
-        validation: {
-          required: true,
-        },
-        label: "Ticker Symbol",
-      },
       startDate: {
         elementType: "input",
         elementConfig: {
@@ -74,21 +61,31 @@ class StockChartForm extends Component {
         label: "Time Frame",
       },
     },
+    ticker: {
+      elementType: "select",
+      elementConfig: {
+        options: [],
+      },
+      value: "A",
+      validation: {
+        required: true,
+      },
+      label: "Ticker Symbol",
+    },
   };
-  
+
   onSubmitHandler = (event) => {
     event.preventDefault();
-    const formValues = {
-    };
+    const formValues = {};
     for (let formElementIdentifier in this.state.inputForm) {
       formValues[formElementIdentifier] = this.state.inputForm[
         formElementIdentifier
       ].value;
     }
-    formValues.startDate = convertFromDateToUNIXTimeStamp(formValues.startDate)
-    formValues.endDate = convertFromDateToUNIXTimeStamp(formValues.endDate)
-    console.log(formValues)
-    this.props.formSubmit(formValues)
+    formValues.startDate = convertFromDateToUNIXTimeStamp(formValues.startDate);
+    formValues.endDate = convertFromDateToUNIXTimeStamp(formValues.endDate);
+    console.log(formValues);
+    this.props.formSubmit(formValues);
   };
   inputChangedHandler = (event, inputIdentifier) => {
     const updatedFormElement = updateObject(
@@ -115,6 +112,26 @@ class StockChartForm extends Component {
     this.setState({ inputForm: updatedOrderForm, formIsValid: formIsValid });
   };
 
+  inputTickerChangedHandler = (event, inputIdentifier) => {
+    const updatedFormElement = updateObject(
+      this.state.inputIdentifier,
+      {
+        value: event.target.value,
+      }
+    );
+    const updatedOrderForm = updateObject(this.state.inputForm, {
+      [inputIdentifier]: updatedFormElement,
+    });
+    let formIsValid = true;
+    for (let inputIdentifier in updatedOrderForm) {
+      if (updatedOrderForm[inputIdentifier].valid === false) {
+        formIsValid = false;
+      }
+    }
+
+    this.setState({ inputForm: updatedOrderForm, formIsValid: formIsValid });
+  };
+
   render() {
     const formElementsArray = [];
     for (let key in this.state.inputForm) {
@@ -126,6 +143,12 @@ class StockChartForm extends Component {
 
     let form = (
       <form onSubmit={this.onSubmitHandler}>
+        
+        <TickerOptions
+          ticker={this.state.ticker}
+          inputChangedHandler={this.inputTickerChangedHandler}
+        />
+
         {formElementsArray.map((formElement, key) => {
           return (
             <Input
@@ -146,7 +169,6 @@ class StockChartForm extends Component {
         <Button btnType="Success" disabled={!this.state.formIsValid}>
           SUBMIT
         </Button>
-
       </form>
     );
 
