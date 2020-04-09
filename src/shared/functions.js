@@ -149,6 +149,7 @@ export const formatAPIRequestOptions = (ticker) => {
     " https://finnhub.io/api/v1/stock/option-chain?symbol=" +
     ticker +
     "&token=boqata7rh5rfjhndqf1g";
+    console.log(url)
   return new Promise((resolve, reject) => {
     axios
       .get(url)
@@ -162,6 +163,7 @@ export const formatAPIRequestOptions = (ticker) => {
             displayValue : responseArray[i].expirationDate,
           });
         }
+        console.log(result)
         resolve(result);
       })
       .catch((error) => {
