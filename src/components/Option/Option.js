@@ -19,87 +19,28 @@ const Option = ({ticker, expirationDate}) => {
     }
     return(
         <div>
-            <div className="row">
-                <div className="col-md-12">
-                    {ticker + " "  + expirationDate + "Calls"} 
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-md-1">
-                    Last
-                </div>
-                <div className="col-md-2">
-                    Volume
-                </div>
-                <div className="col-md-1">
-                    Delta
-                </div>
-                <div className="col-md-1">
-                    Gamma
-                </div>
-                <div className="col-md-1">
-                    Theta
-                </div>
-                <div className="col-md-1">
-                    Vega
-                </div>
-                <div className="col-md-1">
-                    IV
-                </div>
-                <div className="col-md-1">
-                    bid
-                </div>
-                <div className="col-md-1">
-                    ask
-                </div>
-                <div className="col-md-2">
-                    Strike
-                </div>
-            </div>
-
-            {/* {callrows} */}
-
-
-
-
-            <div className="row">
-                <div className="col-md-12">
-                    {/* {props.data.expirationDate} Puts  */}
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-md-1">
-                    Last
-                </div>
-                <div className="col-md-2">
-                    Volume
-                </div>
-                <div className="col-md-1">
-                    Delta
-                </div>
-                <div className="col-md-1">
-                    Gamma
-                </div>
-                <div className="col-md-1">
-                    Theta
-                </div>
-                <div className="col-md-1">
-                    Vega
-                </div>
-                <div className="col-md-1">
-                    IV
-                </div>
-                <div className="col-md-1">
-                    bid
-                </div>
-                <div className="col-md-1">
-                    ask
-                </div>
-                <div className="col-md-2">
-                    Strike
-                </div>
-            </div>
-             {rows}
+            <h2>Calls</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Contract Name</th>
+                        <th>Last Trade Date</th>
+                        <th>Strike</th>
+                        <th>Last Price</th>
+                        <th>Bid</th>
+                        <th>Ask</th>
+                        <th>Change</th>
+                        <th>%Change</th>
+                        <th>Volume</th>
+                        <th>Open Interest</th>
+                        <th>Impied Volatility</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {rows}
+                </tbody>
+            </table>
+             
         </div>
 
        
