@@ -9,7 +9,7 @@ const asyncCOVID = asyncComponent(() => {
   return import("./containers/COVID/COVID");
 });
 const asyncOptionsT = asyncComponent(() => {
-  return import("./containers/Options/OptionsT");
+  return import("./containers/Options/Options");
 });
 const asyncInstrumentChart = asyncComponent(() => {
   return import("./containers/InstrumentChart/InstrumentChart");
@@ -21,7 +21,7 @@ const BaseRouter = () => {
   return (
     <Switch>
       <Route exact path="/" component={asyncCOVID} />
-      <Route exact path="/options" component={asyncOptionsT} />
+      <Route path="/options/" component={asyncOptionsT} />
       <Route exact path="/stock" component={asyncInstrumentChart} />
       <Route exact path="/stock-analysis" component={asyncStockAnalysis} />
       <Route exact path="/forex" component={asyncInstrumentChart} />

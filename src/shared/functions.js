@@ -14,7 +14,6 @@ export const formatAPIRequest = (symbol, timeframe, startDate, endDate) => {
       "&to=" +
       endDate +
       API_KEY;
-    console.log("formatAPIRequest" + url);
     const result = [];
     axios
       .get(url)
@@ -31,7 +30,6 @@ export const formatAPIRequest = (symbol, timeframe, startDate, endDate) => {
             y: [o[i], h[i], l[i], c[i]],
           });
         }
-        console.log(result);
         resolve(result);
       })
       .catch((error) => {
@@ -43,19 +41,20 @@ export const formatAPIRequest = (symbol, timeframe, startDate, endDate) => {
 
 export const getTickerSymbols = (instrument) => {
   let type = instrument;
-  let exchange = ""
+  let exchange = "";
   switch (type) {
     case "stock":
       exchange = "US";
       break;
     case "forex":
-      exchange =  "oanda";
+      exchange = "oanda";
       break;
     case "crypto":
       exchange = "binance";
       break;
-    default: 
-      exchange = "US"
+    default:
+      type = "stock";
+      exchange = "US";
   }
   return new Promise((resolve, reject) => {
     const url =
@@ -64,30 +63,6 @@ export const getTickerSymbols = (instrument) => {
       "/symbol?exchange=" +
       exchange +
       API_KEY;
-    axios
-      .get(url)
-      .then((res) => {
-        const tickers = [];
-        const data = res.data;
-        for (let i = 0; i < data.length; i++) {
-          const t = data[i].symbol;
-          tickers.push({
-            key: i,
-            value: t,
-            displayValue: t + " " + data[i].description,
-          });
-        }
-        resolve(tickers);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-};
-
-export const getForexSymbols = () => {
-  return new Promise((resolve, reject) => {
-    const url = "https://finnhub.io/api/v1/stock/symbol?exchange=US" + API_KEY;
     axios
       .get(url)
       .then((res) => {
@@ -167,4 +142,31 @@ const standardDeviation = (arr, usePopulation = false) => {
       .reduce((acc, val) => acc + val, 0) /
       (arr.length - (usePopulation ? 0 : 1))
   );
+};
+
+export const formatAPIRequestOptions = (ticker) => {
+  const url =
+    " https://finnhub.io/api/v1/stock/option-chain?symbol=" +
+    ticker +
+    "&token=boqata7rh5rfjhndqf1g";
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((res) => {
+        const result = []
+        const responseArray = res.data.data;
+        for (let i = 0; i < responseArray.length; i++) {
+          result.push({
+            key: i,
+            value : responseArray[i].expirationDate,
+            displayValue : responseArray[i].expirationDate,
+          });
+        }
+        resolve(result);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
 };

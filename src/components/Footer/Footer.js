@@ -22,7 +22,7 @@ const Footer = () => {
             <ul className={classes.Icons}>
               <li className="link d-inline-block">
                 <a
-                  href="https://github.com/luigi199922"
+                  href="https://github.com/luisalfonsopreciado"
                   rel="noopener noreferrer"
                   className="LinkU"
                   target="_blank"
