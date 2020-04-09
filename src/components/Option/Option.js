@@ -1,23 +1,27 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import {getOptionData} from '../../shared/functions'
 import Row from '../Row/Row'
-const Option = props => {
-    let callrows = null
-    if (props.data.options){
-        callrows = props.data.options.PUT.map((option,key) =>{
-            return <Row option={option} key={key}></Row>
-        })
-    }
-    let putrows = null
-    if (props.data.options){
-        putrows = props.data.options.CALL.map((option,key) =>{
-            return <Row option={option} key={key}></Row>
-        })
+
+const Option = ({ticker, expirationDate}) => {
+    const [optionData, setOptionData] = useState([])
+
+    useEffect(()=> {
+        const data = getOptionData(ticker, expirationDate)  
+        data.then(data => setOptionData(data))
+        .catch(err => console.log(err)) // Handle it and Render User Feed back in a modal
+    },[ticker])
+    console.log(optionData)
+    let rows = null
+    if(optionData.length > 0 ) {
+            rows = optionData.map((contract, key) => {
+                return <Row key={contract.contractName}option={contract}></Row>
+            })
     }
     return(
         <div>
             <div className="row">
                 <div className="col-md-12">
-                    {props.data.expirationDate} Calls 
+                    {ticker + " "  + expirationDate + "Calls"} 
                 </div>
             </div>
             <div className="row">
@@ -53,14 +57,14 @@ const Option = props => {
                 </div>
             </div>
 
-            {callrows}
+            {/* {callrows} */}
 
 
 
 
             <div className="row">
                 <div className="col-md-12">
-                    {props.data.expirationDate} Puts 
+                    {/* {props.data.expirationDate} Puts  */}
                 </div>
             </div>
             <div className="row">
@@ -95,7 +99,7 @@ const Option = props => {
                     Strike
                 </div>
             </div>
-             {putrows}
+             {rows}
         </div>
 
        

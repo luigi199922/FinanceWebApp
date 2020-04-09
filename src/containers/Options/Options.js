@@ -4,7 +4,8 @@ import TickerOptions from "../../components/SecurityChartForm/Ticker/Ticker";
 import { updateObject } from "../../shared/utility";
 import { formatAPIRequestOptions } from "../../shared/functions";
 import Input from "../../components/UI/Input/Input";
-import Button from "../../components/UI/Button/Button"
+import Button from "../../components/UI/Button/Button";
+import Option from "../../components/Option/Option";
 
 export default class Options extends React.Component {
   state = {
@@ -31,12 +32,14 @@ export default class Options extends React.Component {
       label: "Expiration Date",
       touched: false,
     },
-    formIsValid : false,
+    formIsValid: false,
+    viewOptionChain: false,
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state.ticker.value, this.state.dates.value)
+    this.setState({ viewOptionChain: true });
+    console.log(this.state.ticker.value, this.state.dates.value);
   };
 
   inputTickerChangedHandler = (event) => {
@@ -61,7 +64,7 @@ export default class Options extends React.Component {
       .catch((err) => console.log(err));
   };
 
-  inputChangedHandler = event => {
+  inputChangedHandler = (event) => {
     const updatedFormElement = updateObject(this.state.dates, {
       ...this.state.dates,
       value: event.target.value,
@@ -72,11 +75,11 @@ export default class Options extends React.Component {
         formIsValid = false;
       }
     }
-    this.setState({ dates: updatedFormElement, formIsValid : formIsValid });
-  }
+    this.setState({ dates: updatedFormElement, formIsValid: formIsValid });
+  };
 
   render() {
-    const date = this.state.dates
+    const date = this.state.dates;
     let expirationDates = null;
     if (date.elementConfig.options.length > 0) {
       expirationDates = (
@@ -93,6 +96,15 @@ export default class Options extends React.Component {
         />
       );
     }
+    let optionChain = null;
+    if (this.state.viewOptionChain) {
+      optionChain = (
+        <Option
+          ticker={this.state.ticker.value}
+          expirationDate={this.state.dates.value}
+        />
+      );
+    }
 
     return (
       <div>
@@ -102,9 +114,11 @@ export default class Options extends React.Component {
             inputChangedHandler={this.inputTickerChangedHandler}
           />
           {expirationDates}
-          <Button  btnType="Success" disabled={!this.state.formIsValid}>Submit</Button>
+          <Button btnType="Success" disabled={!this.state.formIsValid}>
+            Submit
+          </Button>
         </form>
-       
+        {optionChain}
       </div>
     );
   }

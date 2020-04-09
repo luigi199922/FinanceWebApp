@@ -146,24 +146,21 @@ const standardDeviation = (arr, usePopulation = false) => {
 
 export const formatAPIRequestOptions = (ticker) => {
   const url =
-    " https://finnhub.io/api/v1/stock/option-chain?symbol=" +
-    ticker +
-    API_KEY;
-    console.log(url)
+    " https://finnhub.io/api/v1/stock/option-chain?symbol=" + ticker + API_KEY;
+  console.log(url);
   return new Promise((resolve, reject) => {
     axios
       .get(url)
       .then((res) => {
-        const result = []
+        const result = [];
         const responseArray = res.data.data;
         for (let i = 0; i < responseArray.length; i++) {
           result.push({
             key: i,
-            value : responseArray[i].expirationDate,
-            displayValue : responseArray[i].expirationDate,
+            value: responseArray[i].expirationDate,
+            displayValue: responseArray[i].expirationDate,
           });
         }
-        console.log(result)
         resolve(result);
       })
       .catch((error) => {
@@ -175,21 +172,24 @@ export const formatAPIRequestOptions = (ticker) => {
 
 export const getOptionData = (ticker, expirationDate) => {
   const url =
-    "https://finnhub.io/api/v1/stock/option-chain?symbol=" +
-    ticker +
-    API_KEY;
-  return new Promise((resolve, reject)=> {
-    axios.get(url).then( res => {
-      const data = res.data.data
-      const result = []
-      for(let i = 0; i < data.length; i++){
-        if(data[i].expirationDate  == expirationDate){
-          result = data[i].options.CALL
+    "https://finnhub.io/api/v1/stock/option-chain?symbol=" + ticker + API_KEY;
+
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((res) => {
+        const data = res.data.data;
+        let result = [];
+        for (let i = 0; i < data.length; i++) {
+          if (expirationDate.localeCompare(data[i].expirationDate) === 0) {
+            result = data[i].options.CALL;
+            break;
+          }
         }
-      }
-      resolve(result)
-    }).catch(err => {
-      console.log(err)
-    })
-  })
-}
+        resolve(result);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
