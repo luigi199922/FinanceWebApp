@@ -1,5 +1,5 @@
 import React from "react";
-import "./OptionsT.module.css";
+import "./Options.module.css";
 import TickerOptions from "../../components/SecurityChartForm/Ticker/Ticker";
 import { updateObject } from "../../shared/utility";
 import { formatAPIRequestOptions } from "../../shared/functions";
@@ -38,10 +38,7 @@ export default class Options extends React.Component {
     event.preventDefault();
     console.log(this.state.ticker.value, this.state.dates.value)
   };
-  ViewHandler = () => {
-    const view = this.state.view;
-    this.setState({ view: !view });
-  };
+
   inputTickerChangedHandler = (event) => {
     const updatedFormElement = updateObject(this.state.ticker, {
       ...this.state.ticker,
@@ -63,6 +60,7 @@ export default class Options extends React.Component {
       })
       .catch((err) => console.log(err));
   };
+
   inputChangedHandler = event => {
     const updatedFormElement = updateObject(this.state.dates, {
       ...this.state.dates,
@@ -95,7 +93,7 @@ export default class Options extends React.Component {
         />
       );
     }
-    console.log(this.state);
+
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
