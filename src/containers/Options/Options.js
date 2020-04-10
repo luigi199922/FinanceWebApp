@@ -1,14 +1,13 @@
 import React from "react";
 import "./Options.module.css";
 import TickerOptions from "../../components/SecurityChartForm/Ticker/Ticker";
-import { updateObject } from "../../shared/utility";
+import { updateObject,optionListView } from "../../shared/utility";
 import { formatAPIRequestOptions } from "../../shared/functions";
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import Option from "../../components/Option/Option";
 import classes from "./Options.module.css";
 import SecurityInfo from "../../components/SecurityInfo/SecurityInfo";
-
 export default class Options extends React.Component {
   state = {
     ticker: {
@@ -36,20 +35,8 @@ export default class Options extends React.Component {
     },
     formIsValid: false,
     viewOptionChain: false,
-    optionDisplay: {
-      contractName: true,
-      lastTradeDateTime: true,
-      strike: true,
-      lastPrice: true,
-      bid: true,
-      ask: true,
-      change: true,
-      changePercent: true,
-      volume: true,
-      openInterest: true,
-      impliedVolatility: true,
-    },
     optionType: "CALL",
+    displayList: true,
   };
 
   handleSubmit = (event) => {
@@ -79,7 +66,10 @@ export default class Options extends React.Component {
       })
       .catch((err) => console.log(err));
   };
-
+  toggleListHandler = () => {
+    this.setState({displayList: !this.state.displayList})
+    console.log(this.state.displayList)
+  }
   inputChangedHandler = (event) => {
     const updatedFormElement = updateObject(this.state.dates, {
       ...this.state.dates,
@@ -95,6 +85,9 @@ export default class Options extends React.Component {
   };
 
   toggleOptionTypeHandler = (type) => {
+    if(this.state.displayList){
+
+    }
     this.setState({ optionType: type });
     console.log(this.state);
   };
@@ -121,10 +114,11 @@ export default class Options extends React.Component {
     if (this.state.viewOptionChain) {
       optionChain = (
         <Option
-          optionDisplay={this.state.optionDisplay}
+          optionDisplay={optionListView}
           ticker={this.state.ticker.value}
           expirationDate={this.state.dates.value}
           optionType={this.state.optionType}
+          displayList={this.state.displayList}
         />
       );
     }
@@ -157,6 +151,10 @@ export default class Options extends React.Component {
         >
           Puts
         </Button>
+        <div style={{display : "inline-block"}}>
+        <p>Display: </p> <p onClick={this.toggleListHandler}>List</p> <p>Straddle</p>
+        </div>
+       
         {optionChain}
       </div>
     );

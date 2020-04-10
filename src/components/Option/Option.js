@@ -7,7 +7,7 @@ const Option = ({ ticker, expirationDate, optionDisplay, optionType }) => {
   const [optionData, setOptionData] = useState([]);
 
   useEffect(() => {
-    const data = getOptionData(ticker, expirationDate, optionType);
+    const data = getOptionData(ticker, expirationDate, optionType, true);
     data.then((data) => setOptionData(data)).catch((err) => console.log(err)); // Handle it and Render User Feed back in a modal
   }, [ticker, optionType, expirationDate]);
 
@@ -23,7 +23,7 @@ const Option = ({ ticker, expirationDate, optionDisplay, optionType }) => {
       );
     });
   }
-  
+
   const keysToDisplay = Object.keys(optionDisplay);
 
   let headitems = keysToDisplay.map((val, key) => {

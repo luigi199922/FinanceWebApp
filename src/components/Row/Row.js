@@ -13,6 +13,8 @@ const Row = ({ option, optionDisplay }) => {
           {new Date(option.lastTradeDateTime.split(" ")).toDateString()}
         </TD>
       );
+    }else if (typeof option[val] === "number"){
+      return <TD key={key}>{option[val].toFixed(2)}</TD>;
     }
     return <TD key={key}>{option[val]}</TD>;
   });

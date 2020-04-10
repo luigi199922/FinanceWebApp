@@ -18,3 +18,7 @@
 .Container tr:nth-child(even) {
     background-color: #dddddd;
   }
+.Container p {
+  display: inline-block;
+  margin: auto, 5px;
+}

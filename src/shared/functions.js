@@ -170,7 +170,7 @@ export const formatAPIRequestOptions = (ticker) => {
   });
 };
 
-export const getOptionData = (ticker, expirationDate, optionType) => {
+export const getOptionData = (ticker, expirationDate, optionType, optionListView) => {
   const url =
     "https://finnhub.io/api/v1/stock/option-chain?symbol=" + ticker + API_KEY;
 
@@ -182,7 +182,14 @@ export const getOptionData = (ticker, expirationDate, optionType) => {
         let result = [];
         for (let i = 0; i < data.length; i++) {
           if (expirationDate.localeCompare(data[i].expirationDate) === 0) {
-            result = data[i].options[optionType];
+            
+            if(optionListView){
+              result = data[i].options[optionType];
+            }else{
+              result = data[i].options.CALL
+
+            }
+            
             break;
           }
         }
