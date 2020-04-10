@@ -28,7 +28,7 @@ const Option = ({ticker, expirationDate, optionDisplay, optionType} ) => {
     
     return(
         <div>
-            <h2>{optionType}</h2>
+            <h2>{optionType + "S"} for {new Date(expirationDate).toDateString()}</h2>
             <table>
                 <thead>
                     <tr>

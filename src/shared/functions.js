@@ -174,7 +174,6 @@ export const getOptionData = (ticker, expirationDate, optionType) => {
   const url =
     "https://finnhub.io/api/v1/stock/option-chain?symbol=" + ticker + API_KEY;
 
-
   return new Promise((resolve, reject) => {
     axios
       .get(url)
@@ -188,6 +187,24 @@ export const getOptionData = (ticker, expirationDate, optionType) => {
           }
         }
         resolve(result);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+
+export const getQuoteData = (symbol) => {
+  const url = "https://finnhub.io/api/v1/quote?symbol=" + symbol + API_KEY;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((res) => {
+        const data = {
+          priceClose: res.data.pc,
+          date: new Date(res.data.t).toDateString(),
+        };
+        resolve(data);
       })
       .catch((err) => {
         reject(err);

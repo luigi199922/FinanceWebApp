@@ -1,0 +1,14 @@
+.Container{
+    width: 100%;
+    border-bottom: 3px solid #cccc;
+    height: 50px;
+    padding: 10px;
+}
+.Container p{
+    display: inline-block;
+    margin: auto 20px;
+}
+.Price{
+    font-weight: bold;
+    font-size: x-large;
+}

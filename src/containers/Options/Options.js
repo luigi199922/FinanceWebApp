@@ -7,6 +7,7 @@ import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import Option from "../../components/Option/Option";
 import classes from "./Options.module.css";
+import SecurityInfo from '../../components/SecurityInfo/SecurityInfo'
 
 export default class Options extends React.Component {
   state = {
@@ -127,9 +128,13 @@ export default class Options extends React.Component {
         />
       );
     }
-
+    let tickerInfo = null
+    if(this.state.ticker.value !== ""){
+      tickerInfo = <SecurityInfo ticker={this.state.ticker.value}/>
+    }
     return (
       <div className={classes.Container}>
+        {tickerInfo}
         <form onSubmit={this.handleSubmit}>
           <TickerOptions
             ticker={this.state.ticker}
