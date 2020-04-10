@@ -1,22 +1,27 @@
 import React from 'react'
+import TD from './TableData/TableData'
 
 const Row = props =>{
-    const d = props.option.lastTradeDateTime.split(" ")
-    const date = new Date()
-    console.log(d)
+    const date = new Date(props.option.lastTradeDateTime.split(" ")).toDateString()
+    let TableData = null
+    const properties = Object.values(props.option)
+    TableData = properties.map((value, key) => {
+        return <TD>value</TD>
+    })
     return (
     <tr>
-        <td>{props.option.contractName}</td>
+        {TableData}
+        {/* <td>{props.option.contractName}</td>
         <td>{date.toDateString()}</td>
-        <td>{props.option.strike.toFixed(2)}</td>
-        <td>{props.option.lastPrice.toFixed(2)}</td>
-        <td>{props.option.bid.toFixed(2)}</td>
-        <td>{props.option.ask.toFixed(2)}</td>
-        <td>{props.option.change.toFixed(2)}</td>
-        <td>{props.option.changePercent.toFixed(2)}</td>
-        <td>{props.option.volume.toFixed(2)}</td>
+        <td>{props.option.strike}</td>
+        <td>{props.option.lastPrice}</td>
+        <td>{props.option.bid}</td>
+        <td>{props.option.ask}</td>
+        <td>{props.option.change}</td>
+        <td>{props.option.changePercent}</td>
+        <td>{props.option.volume}</td>
         <td>{props.option.openInterest}</td>
-        <td>{props.option.impliedVolatility.toFixed(2)}</td>
+        <td>{props.option.impliedVolatility}</td> */}
     </tr>
     )
 }

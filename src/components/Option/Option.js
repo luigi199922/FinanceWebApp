@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import {getOptionData} from '../../shared/functions'
 import Row from '../Row/Row'
+import {optionValues} from "../../shared/utility"
 
-const Option = ({ticker, expirationDate}) => {
+const Option = ({ticker, expirationDate, optionDisplay} ) => {
     const [optionData, setOptionData] = useState([])
 
     useEffect(()=> {
@@ -17,13 +18,22 @@ const Option = ({ticker, expirationDate}) => {
                 return <Row key={contract.contractName}option={contract}></Row>
             })
     }
+    console.log(optionDisplay)
+    const keysToDisplay = Object.keys(optionDisplay)
+
+   let headitems = keysToDisplay.map((val, key) => {
+        return <th key ={key}>{optionValues[val]}</th>
+    })
+
+    
     return(
         <div>
             <h2>Calls</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Contract Name</th>
+                       {headitems}
+                        {/* <th>Contract Name</th>
                         <th>Last Trade Date</th>
                         <th>Strike</th>
                         <th>Last Price</th>
@@ -33,7 +43,7 @@ const Option = ({ticker, expirationDate}) => {
                         <th>%Change</th>
                         <th>Volume</th>
                         <th>Open Interest</th>
-                        <th>Impied Volatility</th>
+                        <th>Impied Volatility</th> */}
                     </tr>
                 </thead>
                 <tbody>

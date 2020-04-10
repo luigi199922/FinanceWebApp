@@ -6,6 +6,7 @@ import { formatAPIRequestOptions } from "../../shared/functions";
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import Option from "../../components/Option/Option";
+import classes from "./Options.module.css";
 
 export default class Options extends React.Component {
   state = {
@@ -34,6 +35,19 @@ export default class Options extends React.Component {
     },
     formIsValid: false,
     viewOptionChain: false,
+    optionDisplay: {
+      contractName: true,
+      lastTradeDateTime: true,
+      strike: true,
+      lastPrice: true,
+      bid: true,
+      ask: true,
+      change: true,
+      changePercent: true,
+      volume: true,
+      openInterest: true,
+      impliedVolatility: true,
+    },
   };
 
   handleSubmit = (event) => {
@@ -100,6 +114,7 @@ export default class Options extends React.Component {
     if (this.state.viewOptionChain) {
       optionChain = (
         <Option
+          optionDisplay={this.state.optionDisplay}
           ticker={this.state.ticker.value}
           expirationDate={this.state.dates.value}
         />
@@ -107,7 +122,7 @@ export default class Options extends React.Component {
     }
 
     return (
-      <div>
+      <div className={classes.Container}>
         <form onSubmit={this.handleSubmit}>
           <TickerOptions
             ticker={this.state.ticker}

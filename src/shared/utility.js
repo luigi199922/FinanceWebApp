@@ -21,3 +21,32 @@ export const checkValidity = (value, rules) =>{
     }
     return isValid
 }
+
+export const optionValues =  {
+    contractName: "Contract Name",
+    contractSize: "Contract Size",
+    currency: "false",
+    type: "Type",
+    inTheMoney: "In the Money",
+    lastTradeDateTime: "Last Traded Date Time",
+    expirationDate: "Expiration Date",
+    strike: "Strike",
+    lastPrice: "Last Price",
+    bid: "Bid",
+    ask: "ask",
+    change: "Change",
+    changePercent: "% Change",
+    volume: "Volume",
+    openInterest: "Open Interest",
+    impliedVolatility: "Implied Volatility",
+    delta: false,
+    gamma: false,
+    theta: false,
+    vega: false,
+    rho: false,
+    theoretical: false,
+    intrinsicValue: false,
+    timeValue: false,
+    updatedAt: false,
+    daysBeforeExpiration: false,
+  }
