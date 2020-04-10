@@ -7,7 +7,7 @@ import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import Option from "../../components/Option/Option";
 import classes from "./Options.module.css";
-import SecurityInfo from '../../components/SecurityInfo/SecurityInfo'
+import SecurityInfo from "../../components/SecurityInfo/SecurityInfo";
 
 export default class Options extends React.Component {
   state = {
@@ -49,7 +49,7 @@ export default class Options extends React.Component {
       openInterest: true,
       impliedVolatility: true,
     },
-    optionType : "CALL",
+    optionType: "CALL",
   };
 
   handleSubmit = (event) => {
@@ -93,11 +93,11 @@ export default class Options extends React.Component {
     }
     this.setState({ dates: updatedFormElement, formIsValid: formIsValid });
   };
-  
+
   toggleOptionTypeHandler = (type) => {
-      this.setState({optionType : type})
-      console.log(this.state)
-  }
+    this.setState({ optionType: type });
+    console.log(this.state);
+  };
 
   render() {
     const date = this.state.dates;
@@ -128,9 +128,9 @@ export default class Options extends React.Component {
         />
       );
     }
-    let tickerInfo = null
-    if(this.state.ticker.value !== ""){
-      tickerInfo = <SecurityInfo ticker={this.state.ticker.value}/>
+    let tickerInfo = null;
+    if (this.state.ticker.value !== "") {
+      tickerInfo = <SecurityInfo ticker={this.state.ticker.value} />;
     }
     return (
       <div className={classes.Container}>
@@ -145,8 +145,18 @@ export default class Options extends React.Component {
             Submit
           </Button>
         </form>
-        <Button btnType="Info" clicked={() => this.toggleOptionTypeHandler("CALL")}>Calls</Button>
-        <Button btnType="Info" clicked={() => this.toggleOptionTypeHandler("PUT")}>Puts</Button>
+        <Button
+          btnType="Info"
+          clicked={() => this.toggleOptionTypeHandler("CALL")}
+        >
+          Calls
+        </Button>
+        <Button
+          btnType="Info"
+          clicked={() => this.toggleOptionTypeHandler("PUT")}
+        >
+          Puts
+        </Button>
         {optionChain}
       </div>
     );

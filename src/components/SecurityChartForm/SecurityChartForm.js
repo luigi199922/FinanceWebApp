@@ -7,7 +7,6 @@ import classes from "./StockChartForm.module.css";
 import TickerOptions from "./Ticker/Ticker";
 
 class SecurityChartForm extends Component {
-  componentDidMount() {}
   state = {
     inputForm: {
       startDate: {
@@ -85,7 +84,6 @@ class SecurityChartForm extends Component {
     formValues.ticker = this.state.ticker.value
     formValues.startDate = convertFromDateToUNIXTimeStamp(formValues.startDate);
     formValues.endDate = convertFromDateToUNIXTimeStamp(formValues.endDate);
-    console.log(formValues);
     this.props.formSubmit(formValues);
   };
   inputChangedHandler = (event, inputIdentifier) => {
