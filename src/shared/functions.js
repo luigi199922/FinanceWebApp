@@ -170,9 +170,10 @@ export const formatAPIRequestOptions = (ticker) => {
   });
 };
 
-export const getOptionData = (ticker, expirationDate) => {
+export const getOptionData = (ticker, expirationDate, optionType) => {
   const url =
     "https://finnhub.io/api/v1/stock/option-chain?symbol=" + ticker + API_KEY;
+
 
   return new Promise((resolve, reject) => {
     axios
@@ -182,7 +183,7 @@ export const getOptionData = (ticker, expirationDate) => {
         let result = [];
         for (let i = 0; i < data.length; i++) {
           if (expirationDate.localeCompare(data[i].expirationDate) === 0) {
-            result = data[i].options.CALL;
+            result = data[i].options[optionType];
             break;
           }
         }

@@ -3,14 +3,14 @@ import {getOptionData} from '../../shared/functions'
 import Row from '../Row/Row'
 import {optionValues} from "../../shared/utility"
 
-const Option = ({ticker, expirationDate, optionDisplay} ) => {
+const Option = ({ticker, expirationDate, optionDisplay, optionType} ) => {
     const [optionData, setOptionData] = useState([])
 
     useEffect(()=> {
-        const data = getOptionData(ticker, expirationDate)  
+        const data = getOptionData(ticker, expirationDate,optionType)  
         data.then(data => setOptionData(data))
         .catch(err => console.log(err)) // Handle it and Render User Feed back in a modal
-    },[ticker])
+    },[ticker, optionType, expirationDate])
     console.log(optionData)
     let rows = null
     if(optionData.length > 0 ) {
@@ -28,7 +28,7 @@ const Option = ({ticker, expirationDate, optionDisplay} ) => {
     
     return(
         <div>
-            <h2>Calls</h2>
+            <h2>{optionType}</h2>
             <table>
                 <thead>
                     <tr>

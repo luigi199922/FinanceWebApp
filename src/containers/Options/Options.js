@@ -48,6 +48,7 @@ export default class Options extends React.Component {
       openInterest: true,
       impliedVolatility: true,
     },
+    optionType : "CALL",
   };
 
   handleSubmit = (event) => {
@@ -91,6 +92,11 @@ export default class Options extends React.Component {
     }
     this.setState({ dates: updatedFormElement, formIsValid: formIsValid });
   };
+  
+  toggleOptionTypeHandler = (type) => {
+      this.setState({optionType : type})
+      console.log(this.state)
+  }
 
   render() {
     const date = this.state.dates;
@@ -117,6 +123,7 @@ export default class Options extends React.Component {
           optionDisplay={this.state.optionDisplay}
           ticker={this.state.ticker.value}
           expirationDate={this.state.dates.value}
+          optionType={this.state.optionType}
         />
       );
     }
@@ -133,6 +140,8 @@ export default class Options extends React.Component {
             Submit
           </Button>
         </form>
+        <Button btnType="Info" clicked={() => this.toggleOptionTypeHandler("CALL")}>Calls</Button>
+        <Button btnType="Info" clicked={() => this.toggleOptionTypeHandler("PUT")}>Puts</Button>
         {optionChain}
       </div>
     );
