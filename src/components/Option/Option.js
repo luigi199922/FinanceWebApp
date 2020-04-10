@@ -15,7 +15,7 @@ const Option = ({ticker, expirationDate, optionDisplay} ) => {
     let rows = null
     if(optionData.length > 0 ) {
             rows = optionData.map((contract, key) => {
-                return <Row key={contract.contractName}option={contract}></Row>
+                return <Row key={contract.contractName} optionDisplay={optionDisplay} option={contract}></Row>
             })
     }
     console.log(optionDisplay)
@@ -33,17 +33,6 @@ const Option = ({ticker, expirationDate, optionDisplay} ) => {
                 <thead>
                     <tr>
                        {headitems}
-                        {/* <th>Contract Name</th>
-                        <th>Last Trade Date</th>
-                        <th>Strike</th>
-                        <th>Last Price</th>
-                        <th>Bid</th>
-                        <th>Ask</th>
-                        <th>Change</th>
-                        <th>%Change</th>
-                        <th>Volume</th>
-                        <th>Open Interest</th>
-                        <th>Impied Volatility</th> */}
                     </tr>
                 </thead>
                 <tbody>
