@@ -1,7 +1,8 @@
 import React from "react";
 import Chart from "react-apexcharts";
 import { formatAPIRequest } from "../../shared/functions";
-import SecurityChartForm from "../../components/SecurityChartForm/SecurityChartForm";
+import SecurityChartForm from "../SecurityChartForm/SecurityChartForm";
+import SecurityInfo from "../SecurityInfo/SecurityInfo"
 
 export default class SecurityGrapher extends React.Component {
 
@@ -73,9 +74,13 @@ export default class SecurityGrapher extends React.Component {
         />
       );
     }
-
+    let securityGrapher = null
+    if(this.state.ticker !==""){
+      securityGrapher = <SecurityInfo ticker={this.state.ticker} />
+    }
     return (
       <div>
+        {securityGrapher}
         {customChart}
         <SecurityChartForm
           instrument={this.props.instrument}

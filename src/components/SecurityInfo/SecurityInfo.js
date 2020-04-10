@@ -13,7 +13,7 @@ const SecurityInfo = ({ticker}) => {
         <div className={classes.Container}>
             <p>{ticker}</p>
             <p className={classes.Price}>{quoteData.priceClose}</p>
-            <p>{quoteData.date}</p>     
+            <p className={classes.Date}>{quoteData.date}</p>     
         </div>
     )
 }

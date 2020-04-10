@@ -6,9 +6,17 @@
 }
 .Container p{
     display: inline-block;
-    margin: auto 20px;
+    margin: auto 10px;
 }
 .Price{
     font-weight: bold;
     font-size: x-large;
+}
+.Date{
+    font-size: small;
+}
+@media only screen and (max-width: 430px){
+    .Date{
+        display: none;
+    }
 }
