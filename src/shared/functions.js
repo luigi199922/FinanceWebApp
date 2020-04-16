@@ -134,6 +134,60 @@ export const getTickerExpectedReturns = (
   });
 };
 
+export const getStockCorrelation = async (
+  ticker1,
+  ticker2,
+  startDate,
+  endDate,
+  timeframe
+) => {
+  const url =
+    base +
+    ticker1 +
+    "&resolution=" +
+    timeframe +
+    "&from=" +
+    startDate +
+    "&to=" +
+    endDate +
+    API_KEY;
+
+  const url2 =
+    base +
+    ticker2 +
+    "&resolution=" +
+    timeframe +
+    "&from=" +
+    startDate +
+    "&to=" +
+    endDate +
+    API_KEY;
+
+  await axios.get(url).then((res) => {
+    let sum = 0;
+    const c = res.data.c;
+    const returnsArray = [];
+    for (let i = 0; i < c.length; i++) {
+      if (i !== c.length - 1) {
+        sum += ((c[i + 1] - c[i]) / c[i]) * 100;
+        returnsArray.push(((c[i + 1] - c[i]) / c[i]) * 100);
+      }
+    }
+  });
+
+  await axios.get(url2).then((res) => {
+    let sum = 0
+    const c = res.data.c;
+    const returnsArray = [];
+    for (let i = 0; i < c.length; i++) {
+      if (i !== c.length - 1) {
+        sum += ((c[i + 1] - c[i]) / c[i]) * 100;
+        returnsArray.push(((c[i + 1] - c[i]) / c[i]) * 100);
+      }
+    }
+  });
+};
+
 const standardDeviation = (arr, usePopulation = false) => {
   const mean = arr.reduce((acc, val) => acc + val, 0) / arr.length;
   return Math.sqrt(
@@ -170,7 +224,12 @@ export const formatAPIRequestOptions = (ticker) => {
   });
 };
 
-export const getOptionData = (ticker, expirationDate, optionType, optionListView) => {
+export const getOptionData = (
+  ticker,
+  expirationDate,
+  optionType,
+  optionListView
+) => {
   const url =
     "https://finnhub.io/api/v1/stock/option-chain?symbol=" + ticker + API_KEY;
 
@@ -182,14 +241,12 @@ export const getOptionData = (ticker, expirationDate, optionType, optionListView
         let result = [];
         for (let i = 0; i < data.length; i++) {
           if (expirationDate.localeCompare(data[i].expirationDate) === 0) {
-            
-            if(optionListView){
+            if (optionListView) {
               result = data[i].options[optionType];
-            }else{
-              result = data[i].options.CALL
-
+            } else {
+              result = data[i].options.CALL;
             }
-            
+
             break;
           }
         }

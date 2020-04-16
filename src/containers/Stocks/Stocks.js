@@ -1,6 +1,7 @@
 import React from "react";
 import { getTickerExpectedReturns } from "../../shared/functions";
 import SecurityChartForm from "../../components/SecurityChartForm/SecurityChartForm";
+import SecurityInfo from "../../components/SecurityInfo/SecurityInfo"
 
 export default class Stocks extends React.Component {
   componentDidMount() {
@@ -46,9 +47,10 @@ export default class Stocks extends React.Component {
     if (!this.state.loading) {
       stockInfo = (
         <div style={{margin: "auto"}}>
+          <SecurityInfo ticker={this.state.ticker}/>
           <h2>{this.state.ticker}</h2>
-          <p>Expected Returns: {this.state.expectedReturns} %</p>
-          <p>Risk: {this.state.stDev} %</p>
+          <p>Expected Returns: {this.state.expectedReturns.toFixed(2)} %</p>
+          <p>Risk: {this.state.stDev.toFixed(2)} %</p>
         </div>
       );
     }
