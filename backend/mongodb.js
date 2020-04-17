@@ -1,15 +1,17 @@
 const { MongoClient } = require("mongodb");
-
+const assert = require("assert")
 const connectionURL = "mongodb://127.0.0.1:27017";
 const databaseName = "finance-api";
 
-MongoClient.connect(
-  connectionURL,
-  { useNewUrlParser: true, useUnifiedTopology: true },
-  (error, client) => {
-    if (error) {
-      return console.log("Unable to connect to MongoDB");
-    }
-    client.db(databaseName);
-  }
-);
+// Create a new MongoClient
+const client = new MongoClient(connectionURL);
+
+// Use connect method to connect to the Server
+client.connect(function(err) {
+  assert.equal(null, err);
+  console.log("Connected correctly to server");
+
+  const db = client.db(databaseName);
+
+  client.close();
+});
