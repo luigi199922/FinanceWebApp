@@ -31,7 +31,7 @@ class COVID extends Component {
       <div className={classes.Container}>
         <h1>C<img className={classes.Image} src={VirusImage} alt="COVID-19"></img>VID-19</h1>
         <InfoCard data={data} />
-        <CountryPicker handleCountryChange={this.handleCountryChange}></CountryPicker>
+        <CountryPicker handleCountryChange={this.handleCountryChange}/>
         <Chart data={data} country={this.state.country}></Chart>
       </div>
     );

@@ -1,22 +1,15 @@
-.Container h1{
-    width: 100%;
-    font-size: 75px;
-    text-align: center;
-}
+
 .Container {
     width: 100%;
-}
-.Image{
-    width: 60px !important;
-    height: 60px;
-    margin-top: 50px;
+    margin: 0;
+    text-align: center;
 }
 
-@media (max-width: 770px){
-    .Container{
-        margin: 0 10%;
-    }
-    .Image{
-        width: 100%;
-    }
+.Container h1 {
+    text-align: center;
+    font-size: 40px;
+}
+
+.Image{
+    width:40px;
 }

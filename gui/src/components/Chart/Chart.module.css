@@ -1,11 +1,18 @@
 .Container{
     display: flex;
-    justify-content:  center;
-    width: 100%;
+    text-align: center;
+    width: 80%;
+    margin: 0 2%;
 }
-
-@media(max-width: 770px){
+.Chart{
+    position: relative;
+    width:100%;
+}
+@media(max-width: 500px){
     .Container{
         width: 100%;
+    }
+    .Chart{
+        display: none;
     }
 }

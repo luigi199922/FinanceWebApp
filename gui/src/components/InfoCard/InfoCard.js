@@ -2,15 +2,26 @@ import React from "react";
 import classes from "./InfoCard.module.css";
 import { Card, CardContent, Typography, Grid } from "@material-ui/core";
 import CountUp from "react-countup";
-import cx from 'classnames'
+import cx from "classnames";
 const InfoCard = ({ data: { confirmed, recovered, deaths, lastUpdate } }) => {
   if (!confirmed) {
     return "Loading....";
   }
   return (
     <div className={classes.Container}>
-      <Grid container spacing={3} justify="center" className={classes.CardContainer}>
-        <Grid item xs={12} md={3}  component={Card} className={cx(classes.Card, classes.Infected)}>
+      <Grid
+        container
+        spacing={1}
+        className={classes.CardContainer}
+      >
+        <Grid
+          container
+          item
+          xs={12}
+          spacing={3}
+          component={Card}
+          className={cx(classes.Card, classes.Infected)}
+        >
           <CardContent>
             <Typography color="textSecondary" gutterBottom>
               Infected
@@ -23,15 +34,22 @@ const InfoCard = ({ data: { confirmed, recovered, deaths, lastUpdate } }) => {
                 separator=","
               />
             </Typography>
-            <Typography color="textSecondary">{new Date(lastUpdate).toDateString()}</Typography>
+            <Typography color="textSecondary">
+              {new Date(lastUpdate).toDateString()}
+            </Typography>
             <Typography variant="body2">
               Number of Active Cases of COVID-19
             </Typography>
           </CardContent>
         </Grid>
-      </Grid>
-      <Grid container spacing={3} justify="center" className={classes.CardContainer}>
-        <Grid item xs={12} md={3} component={Card} className={cx(classes.Card, classes.Recovered)}>
+        <Grid
+          container
+          item
+          xs={12}
+          spacing={3}
+          component={Card}
+          className={cx(classes.Card, classes.Recovered)}
+        >
           <CardContent>
             <Typography color="textSecondary" gutterBottom>
               Recovered
@@ -44,15 +62,22 @@ const InfoCard = ({ data: { confirmed, recovered, deaths, lastUpdate } }) => {
                 separator=","
               />
             </Typography>
-            <Typography color="textSecondary">{new Date(lastUpdate).toDateString()}</Typography>
+            <Typography color="textSecondary">
+              {new Date(lastUpdate).toDateString()}
+            </Typography>
             <Typography variant="body2">
               Number of Recoveries from COVID-19
             </Typography>
           </CardContent>
         </Grid>
-      </Grid>
-      <Grid container spacing={3} justify="center" className={classes.CardContainer}>
-        <Grid item xs={12} md={3} component={Card} className={cx(classes.Card, classes.Deaths)}>
+        <Grid
+          container
+          item
+          xs={12}
+          spacing={3}
+          component={Card}
+          className={cx(classes.Card, classes.Deaths)}
+        >
           <CardContent>
             <Typography color="textSecondary" gutterBottom>
               Deaths
@@ -65,7 +90,9 @@ const InfoCard = ({ data: { confirmed, recovered, deaths, lastUpdate } }) => {
                 separator=","
               />
             </Typography>
-            <Typography color="textSecondary">{new Date(lastUpdate).toDateString()}</Typography>
+            <Typography color="textSecondary">
+              {new Date(lastUpdate).toDateString()}
+            </Typography>
             <Typography variant="body2">
               Number of Deaths from COVID-19
             </Typography>

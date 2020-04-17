@@ -1,11 +1,13 @@
 
 .Container{
   display: flex;
-  width: 100%;
+  width: 90%;
+  position: relative;
+  left: 5%;
 }
 
 .Card{
-  margin: 0 2% !important;
+  margin: 2% 2% !important;
 }
 
 .Infected{
