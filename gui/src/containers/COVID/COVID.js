@@ -1,40 +1,38 @@
-import React from "react";
-import axios from "axios";
-import StateCard from "./StateCard";
+import React, { Component } from "react";
+import InfoCard from "../../components/InfoCard/InfoCard";
+import {fetchData} from '../../api'
+import Chart from '../../components/Chart/Chart'
+import CountryPicker from '../../components/CountryPicker/CountryPicker'
+import VirusImage from '../../assets/images/covid.png'
+import classes from './COVID.module.css'
+class COVID extends Component {
 
-class COVID extends React.Component {
-  componentDidMount() {
-    const url = "https://finnhub.io/api/v1/covid19/us";
-    axios.get(url).then((res) => {
-      this.setState({
-        us: res.data,
-        loading: false,
-      });
-    });
-  }
   state = {
-    us: [],
-    loading: true,
+    data: {},
+    country: ""
   };
 
-  render() {
+  async componentDidMount() {
+    const fetchedData = await fetchData();
+      this.setState({
+          data: fetchedData
+      })
 
-    let covid = null;
-    if (!this.state.loading) {
-      covid = this.state.us.map((state, key) => {
-        return (
-          <StateCard
-            key={state.state}
-            state={state.state}
-            cases={state.case}
-            deaths={state.death}
-          />
-        );
-      });
-    }
+  }
+
+  handleCountryChange = async (country) => {
+    const fetchedData = await fetchData(country)
+    this.setState({data : fetchedData, country: country})
+  }
+
+  render() {
+      const { data } = this.state
     return (
-      <div>
-        {covid}
+      <div className={classes.Container}>
+        <h1>C<img className={classes.Image} src={VirusImage} alt="COVID-19"></img>VID-19</h1>
+        <InfoCard data={data} />
+        <CountryPicker handleCountryChange={this.handleCountryChange}></CountryPicker>
+        <Chart data={data} country={this.state.country}></Chart>
       </div>
     );
   }

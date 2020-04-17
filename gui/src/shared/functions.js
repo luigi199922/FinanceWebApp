@@ -109,7 +109,7 @@ export const getTickerExpectedReturns = (
     axios
       .get(url)
       .then((res) => {
-        var sum = 0;
+        let sum = 0;
         var divisor = 0;
         const c = res.data.c;
         console.log(c);
@@ -162,9 +162,8 @@ export const getStockCorrelation = async (
     "&to=" +
     endDate +
     API_KEY;
-
-  await axios.get(url).then((res) => {
     let sum = 0;
+  await axios.get(url).then((res) => { 
     const c = res.data.c;
     const returnsArray = [];
     for (let i = 0; i < c.length; i++) {
@@ -174,9 +173,8 @@ export const getStockCorrelation = async (
       }
     }
   });
-
+  sum = 0
   await axios.get(url2).then((res) => {
-    let sum = 0
     const c = res.data.c;
     const returnsArray = [];
     for (let i = 0; i < c.length; i++) {
