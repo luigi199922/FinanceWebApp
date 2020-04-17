@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const WatchList = require("./WatchList")
 
 const userSchema = new mongoose.Schema({
   first_name: {
@@ -30,9 +31,6 @@ const userSchema = new mongoose.Schema({
       }
     },
   },
-  dateJoined: {
-    type: Date,
-  },
   tokens: [
     {
       token: {
@@ -41,6 +39,8 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
+}, {
+  timestamps: true
 });
 userSchema.virtual('WatchLists', {
   ref: 'WatchList',
@@ -59,7 +59,6 @@ userSchema.pre("save", async function (next) {
   if (user.isModified("password")) {
     user.password = await bcrypt.hash(user.password, 8);
   }
-  user.dateJoined = new Date();
   next();
 });
 userSchema.methods.generateAuthToken = async function () {
@@ -83,6 +82,13 @@ userSchema.statics.findByCredentials = async function (email, password) {
   }
   return user
 };
+
+//Delete user watchlist when user is removed
+userSchema.pre('remove', async function(next){
+  const user = this
+  await WatchList.deleteMany({owner: user._id})
+  next()
+})
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;

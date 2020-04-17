@@ -3,7 +3,7 @@ const router = new express.Router();
 const User = require("../models/User.js");
 const auth = require("../middleware/auth");
 const validator = require("validator");
-const userValidation = require("../models/UserValidation")
+const userValidation = require("../models/UserValidation");
 
 router.get("/users/me", auth, async (req, res) => {
   try {
@@ -68,13 +68,13 @@ router.post("/users/login", async (req, res) => {
 
 router.post("/users/create", async (req, res) => {
   const error = [];
-  userValidation(req.body.email, req.body.password, error)
-
+  userValidation(req.body.email, req.body.password, error);
+  const user = new User(req.body);
   try {
     if (error.length > 0) {
       throw new Error();
     }
-    const user = new User(req.body);
+
     const token = await user.generateAuthToken();
     res.status(201).send({ user, token });
   } catch (e) {
