@@ -82,11 +82,11 @@ router.post("/users/create", async (req, res) => {
   }
 });
 
-router.get("/users/favorite", auth, async (req, res) => {
+router.get("/users/watchlist", auth, async (req, res) => {
   res.status(200).send(req.user.favoritePokemons);
 });
 
-router.post("/users/favorite", auth, async (req, res) => {
+router.post("/users/watchlist", auth, async (req, res) => {
   try {
     req.user.favoritePokemons.push(req.body);
     await req.user.save();
@@ -96,7 +96,7 @@ router.post("/users/favorite", auth, async (req, res) => {
   }
 });
 
-router.delete("/users/favorite", auth, async (req, res) => {
+router.delete("/users/watchlist", auth, async (req, res) => {
   try {
     const isSamePokemon = (pokemon) => pokemon.name == req.body.name;
     const index = req.user.favoritePokemons.findIndex(isSamePokemon);

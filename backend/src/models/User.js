@@ -21,12 +21,6 @@ const userSchema = new mongoose.Schema({
       }
     },
   },
-  favoritePokemons: [
-    {
-      pokemonId: { type: Number, unique: true },
-      name: { type: String, unique: true },
-    },
-  ],
   password: {
     type: String,
     required: true,
@@ -48,6 +42,11 @@ const userSchema = new mongoose.Schema({
     },
   ],
 });
+userSchema.virtual('WatchLists', {
+  ref: 'WatchList',
+  localField: '_id',
+  foreignField: 'owner'
+})
 userSchema.methods.toJSON = function(){
   const user = this
   const userObject = user.toObject()
