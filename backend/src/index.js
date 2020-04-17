@@ -1,5 +1,7 @@
 const express = require('express')
+require('./db/mongoose')
 const app = express()
+const userRouter = require("./routes/user")
 const port = process.env.PORT || 8000
 app.use(function(req,res,next) {
     res.header("Access-Control-Allow-Origin", "*")
@@ -8,9 +10,8 @@ app.use(function(req,res,next) {
     next()
 })
 app.use(express.json())
-app.get('/' ,(req, res) => {
-    res.send("Hello World")
-})
+app.use(userRouter)
+
 
 app.listen(port ,() => {
     console.log("Server Listening on port: " + port)
