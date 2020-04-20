@@ -162,13 +162,14 @@ export const getStockCorrelation = async (
     "&to=" +
     endDate +
     API_KEY;
-    let sum = 0;
-  await axios.get(url).then((res) => { 
+  let sum = 0;
+  await axios.get(url).then((res) => {   
     const c = res.data.c;
     const returnsArray = [];
+    
     for (let i = 0; i < c.length; i++) {
       if (i !== c.length - 1) {
-        sum += ((c[i + 1] - c[i]) / c[i]) * 100;
+        sum = sum + ((c[i + 1] - c[i]) / c[i]) * 100;
         returnsArray.push(((c[i + 1] - c[i]) / c[i]) * 100);
       }
     }

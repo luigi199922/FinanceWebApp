@@ -29,7 +29,7 @@ export const fetchEconomicData = async (country) => {
   try {
     const { data } = await axios.get(formatUrl(country));
     const modifiedData = [];
-    data.map((dailyData) => {
+    data.forEach((dailyData) => {
       modifiedData.unshift({ date: dailyData[0], value: dailyData[1] });
     });
     return modifiedData;
@@ -43,7 +43,6 @@ export const fetchDailyCountries = async () => {
     "https://finnhub.io/api/v1/economic/code?token=boqata7rh5rfjhndqf1g";
   const { data } = await axios.get(economicCodesUrl);
   const countries = new HashTable();
-  const economicCodes = new HashTable();
   data.forEach(async (item) => {
     console.log(item);
     if (countries.getItem(item.country) === null) {
