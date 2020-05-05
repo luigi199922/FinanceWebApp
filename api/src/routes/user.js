@@ -1,6 +1,7 @@
 const express = require("express");
 const router = new express.Router();
 const User = require("../models/User");
+const Security = require("../models/Security");
 const auth = require("../middleware/auth");
 const multer = require("multer");
 const sharp = require("sharp");
@@ -150,6 +151,63 @@ router.get("/:id/avatar", async (req, res) => {
     res.send(user.avatar);
   } catch (e) {
     res.status(404).send();
+  }
+});
+
+router.patch("/watchlist", auth, async (req, res) => {
+  try {
+    const security = await Security.findOne({ symbol: req.body.symbol });
+    if (!security) {
+      const newSecurity = new Security({
+        ...req.body,
+        userWatchList: [req.user],
+      });
+      req.user.watchList.push(newSecurity._id);
+      await req.user.save();
+      await newSecurity.save();
+      return res.send(newSecurity);
+    }
+    if (req.user.watchList.includes(security._id)) {
+      return res.send("Security is already in your watch list");
+    }
+    req.user.watchList.push(security._id);
+    security.userWatchList.push(req.user._id);
+    await security.save();
+    await req.user.save();
+    res.send(security);
+  } catch (err) {
+    res.status(400).send();
+  }
+});
+
+router.delete("/watchlist", auth, async (req, res) => {
+  try {
+    const security = await Security.findOne({ symbol: req.body.symbol });
+    const errorMessage = "The requested Security is not in your watchlist"
+    if (!security) return res.send(errorMessage);
+    if(!req.user.watchList.includes(security._id))return res.send(errorMessage);
+    const index = req.user.watchList.indexOf(security._id)
+    const secIndex = security.userWatchList.indexOf(req.user_id)
+    req.user.watchList.splice(index, 1);
+    security.userWatchList.splice(secIndex, 1);
+    await security.save();
+    await req.user.save();
+    res.send(security);
+  } catch (err) {
+    res.status(400);
+  }
+});
+
+router.get("/watchlist", auth, async (req, res) => {
+  try {
+    await req.user
+      .populate({
+        path: "watchList",
+      })
+      .execPopulate();
+    res.send(req.user.watchList);
+  } catch (err) {
+    res.status(500);
   }
 });
 

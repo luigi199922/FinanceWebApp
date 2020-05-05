@@ -1,38 +1,7 @@
 const express = require("express");
 const router = new express.Router();
-const WatchList = require("../models/WatchList");
+const WatchList = require("../models/Security");
 const auth = require("../middleware/auth")
-
-//GET /watchlist?completed=false
-//GET /watchlist?limit=10&skip=0
-//GET /watchlist?sortBy=createdAt_desc
-router.get("/watchlist",auth, async (req, res) => {
-  const match = {}
-  const sort = {}
-
-  if(req.query.completed){
-    match.completed = req.query.completed === 'true'
-  }
-  if(req.query.sortBy){
-    const parts = req.query.sortBy.split("-")
-    sort[parts[0]] = parts[1] === 'desc' ? -1 : 1
-  }
-
-  try {
-    await req.user.populate({
-      path: 'WatchLists',
-      match,
-      options: {
-        limit: parseInt(req.query.limit),
-        skip: parseInt(req.query.skip),
-        sort
-      }
-    }).execPopulate()
-    res.send(req.user.WatchLists);
-  } catch (err) {
-    res.status(500);
-  }
-});
 
 router.get("/watchlist/:id",auth, async (req, res) => {
   const _id = req.params.id;

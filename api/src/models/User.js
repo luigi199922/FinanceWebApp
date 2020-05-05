@@ -6,7 +6,7 @@ const validator = require("validator");
 const UserSchema = new mongoose.Schema(
   {
     name: String,
-    username: String, 
+    username: String,
     email: {
       type: String,
       required: true,
@@ -47,6 +47,7 @@ const UserSchema = new mongoose.Schema(
     avatar: {
       type: Buffer,
     },
+    watchList: [{ type: mongoose.Schema.Types.ObjectId, ref: "Security" }],
   },
   {
     timestamps: true,
