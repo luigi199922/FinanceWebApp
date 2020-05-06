@@ -1,0 +1,19 @@
+.Container{
+    width: 100%;
+}
+.CardContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+.ButtonContainer{
+    position: relative;
+    height: 80px;
+    display: flex;
+    margin:0px;
+}
+.Button{
+    margin: auto;
+}

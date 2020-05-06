@@ -1,12 +1,12 @@
-import React, { Suspense } from "react";
+import React, { Suspense, lazy } from "react";
 import { Switch, Route } from "react-router-dom";
-const StockAnalysis = React.lazy(() => import("./containers/Stocks/Stocks"));
-const COVID = React.lazy(() => import("./containers/COVID/COVID"));
-const Options = React.lazy(() => import("./containers/Options/Options"));
-const InstrumentChart = React.lazy(() =>
-  import("./containers/InstrumentChart/InstrumentChart")
-);
-const Economic = React.lazy(() => import("./containers/Economic/Economic"));
+const StockAnalysis = lazy(() => import("./containers/Stocks/Stocks"));
+const COVID = lazy(() => import("./containers/COVID/COVID"));
+const Options = lazy(() => import("./containers/Options/Options"));
+const InstrumentChart = lazy(() => import("./containers/InstrumentChart/InstrumentChart"));
+const Auth = lazy(() => import("./containers/Auth/Auth"))
+const Signup = lazy(() => import("./containers/Auth/Signup/Signup"))
+const Economic = lazy(() => import("./containers/Economic/Economic"));
 
 const loadComponent = (Component) => {
   return (data) => (
@@ -30,6 +30,8 @@ const BaseRouter = () => {
       <Route exact path="/forex" render={loadComponent(InstrumentChart)} />
       <Route exact path="/crypto" render={loadComponent(InstrumentChart)} />
       <Route exact path="/economic" render={loadComponent(Economic)} />
+      <Route exact path="/login" render={loadComponent(Auth)} />
+      <Route exact path="/signup" render={loadComponent(Signup)} />
     </Switch>
   );
 };
