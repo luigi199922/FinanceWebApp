@@ -14,3 +14,4 @@ export {
     authUpdateUser,
     updateSuccess
 } from './auth'
+export {setModalMessage, removeModalMessage} from './global'

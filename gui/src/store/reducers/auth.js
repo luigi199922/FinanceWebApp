@@ -8,7 +8,6 @@ const initialState = {
   loading: false,
   authRedirectPath: "/profile",
   userData: {},
-  updateSuccess: ""
 };
 const authStart = (state, action) => {
   return updateObject(state, { error: null, loading: true });
