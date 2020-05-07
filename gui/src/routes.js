@@ -8,6 +8,8 @@ const Auth = lazy(() => import("./containers/Auth/Auth"))
 const Signup = lazy(() => import("./containers/Auth/Signup/Signup"))
 const Economic = lazy(() => import("./containers/Economic/Economic"));
 const Logout = lazy(()=> import("./containers/Auth/Logout/Logout"))
+const Profile = lazy(() => import("./containers/Profile/Profile"))
+
 const loadComponent = (Component) => {
   return (data) => (
     <Suspense fallback={<div>Loading...</div>}>
@@ -33,6 +35,7 @@ const BaseRouter = () => {
       <Route exact path="/login" render={loadComponent(Auth)} />
       <Route exact path="/signup" render={loadComponent(Signup)} />
       <Route exact path="/logout" render={loadComponent(Logout)} />
+      <Route exact path="/profile" render={loadComponent(Profile)} />
     </Switch>
   );
 };

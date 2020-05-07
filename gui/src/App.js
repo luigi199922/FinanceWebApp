@@ -6,7 +6,7 @@ import * as actions from "./store/actions/index";
 import MessageModal from "./components/UI/Modal/MessageModal";
 
 const App = ({ onTryAutoSignup, message, onRemoveModal }) => {
-  console.log(message);
+  console.log("[App]")
   useEffect(() => {
     onTryAutoSignup();
   }, [onTryAutoSignup]);

@@ -8,12 +8,13 @@ export const updateObject = (oldObject, updatedProperties) => {
   };
 };
 
-export const createHTTPHeaders = (token) => {
+export const createHTTPHeaders = (token, data) => {
   // Headers
   const config = {
     headers: {
       "Content-Type": "application/json",
     },
+    data: {...data}
   };
   // If token, add to headers config
   if (token) {
