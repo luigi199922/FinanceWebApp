@@ -12,6 +12,11 @@ const securitySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   }],
+  userPortfolio: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    amount: Number
+  }]
 });
 securitySchema.methods.toJSON = function () {
   const security = this;

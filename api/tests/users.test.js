@@ -81,7 +81,7 @@ test("Should NOT delete account for unAuth user", async () => {
 });
 
 test("Should upload avatar image", async () => {
-  jest.setTimeout(8000) //Give it more time to upload
+  jest.setTimeout(8000); //Give it more time to upload
   await request(app)
     .post("/users/me/avatar")
     .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
@@ -119,4 +119,64 @@ test("Should NOT update invalid user fields", async () => {
     .send(newUserData)
     .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
     .expect(400);
+});
+
+test("Should get the User Watchlist", async () => {
+  await request(app)
+    .delete("/users/watchlist")
+    .send()
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .expect(200);
+});
+
+test("Should add security and update User Watchlist", async () => {
+  const securityData = {
+    symbol: "BA",
+  };
+  await request(app)
+    .patch("/users/watchlist")
+    .send(securityData)
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .expect(200);
+
+  const res = await request(app)
+    .get("/users/watchlist")
+    .send()
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .expect(200);
+
+  expect(res.body.length).toBe(1);
+
+  const feedback = await request(app)
+    .patch("/users/watchlist")
+    .send(securityData)
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .expect(200);
+  // console.log(feedback.body)
+  // expect(feedback.body).toEqual("Security is already in your Portfolio")
+});
+
+test("Should get User Portfolio", async () => {
+  await request(app)
+    .get("/users/portfolio")
+    .send()
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .expect(200);
+});
+
+test("Should add Security to User Portfolio", async () => {
+  const securityData = {
+    symbol: "BA",
+  };
+  const res = await request(app)
+    .patch("/users/portfolio")
+    .send(securityData)
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .expect(200);
+    expect(res.body).toBeDefined();
+  await request(app)
+    .patch("/users/portfolio")
+    .send(securityData)
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .expect(200);
 });

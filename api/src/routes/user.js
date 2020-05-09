@@ -2,6 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const User = require("../models/User");
 const Security = require("../models/Security");
+const Portfolio = require("../models/Portfolio");
 const auth = require("../middleware/auth");
 const multer = require("multer");
 const sharp = require("sharp");
@@ -183,11 +184,12 @@ router.patch("/watchlist", auth, async (req, res) => {
 router.delete("/watchlist", auth, async (req, res) => {
   try {
     const security = await Security.findOne({ symbol: req.body.symbol });
-    const errorMessage = "The requested Security is not in your watchlist"
+    const errorMessage = "The requested Security is not in your watchlist";
     if (!security) return res.send(errorMessage);
-    if(!req.user.watchList.includes(security._id))return res.send(errorMessage);
-    const index = req.user.watchList.indexOf(security._id)
-    const secIndex = security.userWatchList.indexOf(req.user_id)
+    if (!req.user.watchList.includes(security._id))
+      return res.send(errorMessage);
+    const index = req.user.watchList.indexOf(security._id);
+    const secIndex = security.userWatchList.indexOf(req.user_id);
     req.user.watchList.splice(index, 1);
     security.userWatchList.splice(secIndex, 1);
     await security.save();
@@ -208,6 +210,50 @@ router.get("/watchlist", auth, async (req, res) => {
     res.send(req.user.watchList);
   } catch (err) {
     res.status(500);
+  }
+});
+
+router.get("/portfolio", auth, async (req, res) => {
+  try {
+    const portfolio = await Portfolio.findOne({ owner: req.user._id });
+    res.send(portfolio);
+  } catch (err) {
+    res.status(500);
+  }
+});
+
+router.patch("/portfolio", auth, async (req, res) => {
+  try {
+    const portfolio = await Portfolio.findOne({ owner: req.user._id });
+    const security = await Security.findOne({ symbol: req.body.symbol });
+    const securityId = security._id;
+    if (!portfolio) {  
+      if (!security) {
+        const newSecurity = new Security({
+          ...req.body,
+          userPortfolio: [req.user],
+        });
+        securityId = newSecurity._id;
+      }   
+      const newPortfolio = new Portfolio({
+        owner: req.user._id,
+        securities: [securityId]
+      });
+      req.user.portfolio.push(newPortfolio._id);
+      await req.user.save();
+      await newPortfolio.save();
+      return res.send(newPortfolio);
+    }
+    if (req.user.portfolio.includes(securityId)) {
+      return res.send("Security is already in your Portfolio");
+    }
+    req.user.portfolio.push(securityId);
+    security.userPortfolio.push(req.user._id);
+    await security.save();
+    await req.user.save();
+    res.send(security);
+  } catch (err) {
+    res.status(400).send();
   }
 });
 
