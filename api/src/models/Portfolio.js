@@ -9,6 +9,6 @@ const portfolioSchema = new mongoose.Schema({
   securities: [{ type: mongoose.Schema.Types.ObjectId, ref: "Security" }],
 });
 
-const Portfolio = mongoose.model("Portfolio", portfolioSchema)
+const Portfolio = mongoose.model("Portfolio", portfolioSchema);
 
-module.exports = Portfolio
+module.exports = Portfolio;

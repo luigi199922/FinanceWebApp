@@ -123,7 +123,7 @@ test("Should NOT update invalid user fields", async () => {
 
 test("Should get the User Watchlist", async () => {
   await request(app)
-    .delete("/users/watchlist")
+    .get("/users/watchlist")
     .send()
     .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
     .expect(200);
@@ -157,11 +157,12 @@ test("Should add security and update User Watchlist", async () => {
 });
 
 test("Should get User Portfolio", async () => {
-  await request(app)
+  const res = await request(app)
     .get("/users/portfolio")
     .send()
     .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
     .expect(200);
+  expect(res.body.securities.length).toBe(0);
 });
 
 test("Should add Security to User Portfolio", async () => {
@@ -173,10 +174,24 @@ test("Should add Security to User Portfolio", async () => {
     .send(securityData)
     .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
     .expect(200);
-    expect(res.body).toBeDefined();
-  await request(app)
-    .patch("/users/portfolio")
+  expect(res.body).toBeDefined();
+  const res2 = await request(app)
+    .get("/users/portfolio")
+    .send()
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .expect(200);
+  expect(res2.body.securities.length).toBe(1);
+});
+
+test("Should delete Security from User Portfolio", async () => {
+  const securityData = {
+    symbol: "AAPL",
+  };
+  const res = await request(app)
+    .delete("/users/portfolio")
     .send(securityData)
     .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
     .expect(200);
+  expect(res.body).toBeDefined();
+  console.log(res.body)
 });

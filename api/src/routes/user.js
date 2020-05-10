@@ -18,6 +18,10 @@ router.post("/create", async (req, res) => {
   const user = new User(req.body);
   const error = user.validateSync();
   try {
+    const portfolio = new Portfolio({
+      owner: user._id,
+    });
+    user.portfolio = [portfolio._id]
     const token = await user.generateAuthToken();
     await user.save();
     res.status(201).send({ user, token });
@@ -216,6 +220,18 @@ router.get("/watchlist", auth, async (req, res) => {
 router.get("/portfolio", auth, async (req, res) => {
   try {
     const portfolio = await Portfolio.findOne({ owner: req.user._id });
+    if (!portfolio) {
+      const newPortfolio = new Portfolio({
+        owner: req.user._id,
+      });
+      return res.send(newPortfolio);
+    }
+    await portfolio
+      .populate({
+        path: "securities",
+      })
+      .execPopulate();
+
     res.send(portfolio);
   } catch (err) {
     res.status(500);
@@ -226,24 +242,27 @@ router.patch("/portfolio", auth, async (req, res) => {
   try {
     const portfolio = await Portfolio.findOne({ owner: req.user._id });
     const security = await Security.findOne({ symbol: req.body.symbol });
-    const securityId = security._id;
-    if (!portfolio) {  
+    let securityId;
+    if (!portfolio) {
       if (!security) {
         const newSecurity = new Security({
           ...req.body,
           userPortfolio: [req.user],
         });
         securityId = newSecurity._id;
-      }   
+      } else {
+        securityId = security._id;
+      }
       const newPortfolio = new Portfolio({
         owner: req.user._id,
-        securities: [securityId]
+        securities: [securityId],
       });
-      req.user.portfolio.push(newPortfolio._id);
+      req.user.portfolio.push(securityId);
       await req.user.save();
       await newPortfolio.save();
       return res.send(newPortfolio);
     }
+
     if (req.user.portfolio.includes(securityId)) {
       return res.send("Security is already in your Portfolio");
     }
@@ -254,6 +273,27 @@ router.patch("/portfolio", auth, async (req, res) => {
     res.send(security);
   } catch (err) {
     res.status(400).send();
+  }
+});
+
+router.delete("/portfolio", auth, async (req, res) => {
+  try {
+    const security = await Security.findOne({ symbol: req.body.symbol });
+    const errorMessage = "The requested Security is not in your portfolio";
+    if (!security) return res.send(errorMessage);
+    console.log(req.user);
+    console.log(security._id);
+    if (!req.user.portfolio.includes(security._id))
+      return res.send(errorMessage);
+    const index = req.user.portfolio.indexOf(security._id);
+    const secIndex = security.userPortfolio.indexOf(req.user_id);
+    req.user.watchList.splice(index, 1);
+    security.userWatchList.splice(secIndex, 1);
+    await security.save();
+    await req.user.save();
+    res.send(security);
+  } catch (err) {
+    res.status(400);
   }
 });
 
