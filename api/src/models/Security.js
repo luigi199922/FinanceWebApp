@@ -22,6 +22,7 @@ securitySchema.methods.toJSON = function () {
   const security = this;
   const securityObject = security.toObject();
   delete securityObject.userWatchList;
+  delete securityObject.userPortfolio;
   return securityObject;
 };
 

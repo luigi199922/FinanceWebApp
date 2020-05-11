@@ -48,7 +48,7 @@ const UserSchema = new mongoose.Schema(
       type: Buffer,
     },
     watchList: [{ type: mongoose.Schema.Types.ObjectId, ref: "Security" }],
-    portfolio: [{ type: mongoose.Schema.Types.ObjectId, ref: "Portfolio" }],
+    portfolio: { type: mongoose.Schema.Types.ObjectId, ref: "Portfolio" },
   },
   {
     timestamps: true,

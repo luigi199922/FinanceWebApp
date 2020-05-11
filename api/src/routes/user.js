@@ -18,10 +18,6 @@ router.post("/create", async (req, res) => {
   const user = new User(req.body);
   const error = user.validateSync();
   try {
-    const portfolio = new Portfolio({
-      owner: user._id,
-    });
-    user.portfolio = [portfolio._id]
     const token = await user.generateAuthToken();
     await user.save();
     res.status(201).send({ user, token });
@@ -96,6 +92,7 @@ router.patch("/me", auth, async (req, res) => {
 router.delete("/delete", auth, async (req, res) => {
   try {
     await User.findOneAndDelete({ _id: req.user._id });
+    await Portfolio.findOneAndDelete({ owner: req.user._id });
     res.send("User Deleted Successfully");
   } catch (e) {
     res.status(400).send();
@@ -219,20 +216,22 @@ router.get("/watchlist", auth, async (req, res) => {
 
 router.get("/portfolio", auth, async (req, res) => {
   try {
-    const portfolio = await Portfolio.findOne({ owner: req.user._id });
-    if (!portfolio) {
+    if (!req.user.portfolio) {
       const newPortfolio = new Portfolio({
         owner: req.user._id,
+        equity: 1000000,
       });
       return res.send(newPortfolio);
-    }
-    await portfolio
-      .populate({
-        path: "securities",
-      })
-      .execPopulate();
+    } else {
+      const portfolio = await Portfolio.findOne({ owner: req.user._id });
+      await portfolio
+        .populate({
+          path: "securities",
+        })
+        .execPopulate();
 
-    res.send(portfolio);
+      res.send(portfolio);
+    }
   } catch (err) {
     res.status(500);
   }
@@ -240,34 +239,26 @@ router.get("/portfolio", auth, async (req, res) => {
 
 router.patch("/portfolio", auth, async (req, res) => {
   try {
-    const portfolio = await Portfolio.findOne({ owner: req.user._id });
-    const security = await Security.findOne({ symbol: req.body.symbol });
-    let securityId;
-    if (!portfolio) {
-      if (!security) {
-        const newSecurity = new Security({
-          ...req.body,
-          userPortfolio: [req.user],
-        });
-        securityId = newSecurity._id;
-      } else {
-        securityId = security._id;
-      }
-      const newPortfolio = new Portfolio({
-        owner: req.user._id,
-        securities: [securityId],
+    let security = await Security.findOne({ symbol: req.body.symbol });
+    if (!security) {
+      security = new Security({
+        ...req.body,
+        userPortfolio: [req.user],
       });
-      req.user.portfolio.push(securityId);
-      await req.user.save();
-      await newPortfolio.save();
-      return res.send(newPortfolio);
     }
-
-    if (req.user.portfolio.includes(securityId)) {
-      return res.send("Security is already in your Portfolio");
+    let portfolio = await Portfolio.findOne({ owner: req.user._id });
+    if (!portfolio) {
+      portfolio = new Portfolio({
+        owner: req.user._id,
+        securities: [security._id],
+        equity: 1000000,
+      });
+      req.user.portfolio = portfolio;
+    }else{
+      portfolio.securities.push(security)
     }
-    req.user.portfolio.push(securityId);
     security.userPortfolio.push(req.user._id);
+    await portfolio.save();
     await security.save();
     await req.user.save();
     res.send(security);
@@ -281,8 +272,6 @@ router.delete("/portfolio", auth, async (req, res) => {
     const security = await Security.findOne({ symbol: req.body.symbol });
     const errorMessage = "The requested Security is not in your portfolio";
     if (!security) return res.send(errorMessage);
-    console.log(req.user);
-    console.log(security._id);
     if (!req.user.portfolio.includes(security._id))
       return res.send(errorMessage);
     const index = req.user.portfolio.indexOf(security._id);
