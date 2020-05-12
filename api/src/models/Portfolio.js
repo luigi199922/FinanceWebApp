@@ -6,7 +6,7 @@ const portfolioSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  securities: [{ type: mongoose.Schema.Types.ObjectId, ref: "Security" }],
+  securities: [{ type: mongoose.Schema.Types.ObjectId, ref: "PortfolioSecurity" }],
 });
 
 const Portfolio = mongoose.model("Portfolio", portfolioSchema);

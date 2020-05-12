@@ -170,7 +170,7 @@ test("Should add Security to User Portfolio", async () => {
     symbol: "BA",
   };
   const res = await request(app)
-    .patch("/users/portfolio")
+    .post("/users/portfolio")
     .send(securityData)
     .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
     .expect(200);
@@ -188,10 +188,9 @@ test("Should delete Security from User Portfolio", async () => {
     symbol: "AAPLS",
   };
   const res = await request(app)
-    .delete("/users/portfolio")
+    .delete("/users/portfolio/5eba151d923b84815cc224e5")
     .send(securityData)
     .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
     .expect(200);
   expect(res.body).toBeDefined();
-  console.log(res.body)
 });
