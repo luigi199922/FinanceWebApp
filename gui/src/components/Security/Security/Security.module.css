@@ -1,0 +1,32 @@
+.Container {
+  background-color: #dfdfe1;
+  width: 300px;
+  height: 100px;
+  margin: 10px;
+  border-radius: 8px;
+  -webkit-box-shadow: -1px 0px 6px 0px rgba(122, 122, 122, 1);
+  -moz-box-shadow: -1px 0px 6px 0px rgba(122, 122, 122, 1);
+  box-shadow: -1px 0px 6px 0px rgba(122, 122, 122, 1);
+  display: grid;
+  grid-template-columns: 10% 40% 40% 10%;
+  grid-template-rows: 20% 80%;
+  grid-template-areas:
+    "header header header delete"
+    "main main main main";
+}
+.Symbol {
+  grid-area: header;
+  border: 1px solid red;
+}
+.TickData {
+  grid-area: main;
+  border: 1px solid green;
+}
+.Delete {
+  background-color: red;
+}
+.TickData p {
+  font-size: small;
+  display: inline-block;
+  margin: 5px;
+}

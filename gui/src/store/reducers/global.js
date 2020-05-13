@@ -2,7 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../shared/utility";
 
 const initialState = {
-  modalMessage: "Welcome to Finalytics!",
+  modalMessage: "",
 };
 
 const setMessage = (state, action) => {
