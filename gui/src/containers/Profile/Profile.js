@@ -28,7 +28,10 @@ const Profile = ({ userData, isAuth, history, token }) => {
         key={key}
         symbol={obj.symbol}
         clicked={() => removeFromWatchlist(obj.symbol)}
-      />
+      >
+        <Security.ChartBtn/>
+        <Security.FundamentalsBtn/>
+      </Security>
     );
   });
   return (

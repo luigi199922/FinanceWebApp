@@ -16,11 +16,10 @@
 }
 .Symbol {
   grid-area: header;
-  border: 1px solid red;
+  text-align: center;
 }
 .TickData {
   grid-area: main;
-  border: 1px solid green;
 }
 .Delete {
   background-color: red;
