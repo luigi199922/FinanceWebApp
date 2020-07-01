@@ -1,0 +1,27 @@
+How to plot a option portfolio payoff diagram
+
+1. We will create n arrays where n is the number of uniqued purchased options.
+2. For each option, calculate is "payoff function" using a helper method (Depending on the type of option).
+3. The length of each payoff array will be in the range o to 1.25 * maxStrikePrice.
+
+Filling out the payoff arrays:
+
+for Each of the payoff arrays
+    evaluate the payoff function of the given option assign it to profit var
+    if profit is greater than or equal to 0
+        assign it to the current index
+    else
+        set the array index equal to zero
+
+Sample array result: [20, 15, 10, 5, 0, 0, 0, 0, 0, 0]
+
+After calculating the payoff arrays for each of the options
+
+Calculate the cost which will be the sum of all of the strike prices times the # of purchased minus the premium revenue
+
+add the payoff arrays and the cost to get the final data.
+
+
+Helper Method for calculating the payoff function
+
+1. 

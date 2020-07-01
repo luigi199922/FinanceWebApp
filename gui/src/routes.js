@@ -9,6 +9,7 @@ const Signup = lazy(() => import("./containers/Auth/Signup/Signup"))
 const Economic = lazy(() => import("./containers/Economic/Economic"));
 const Logout = lazy(()=> import("./containers/Auth/Logout/Logout"))
 const Profile = lazy(() => import("./containers/Profile/Profile"))
+const Demo = lazy(() => import("./containers/Demo/Demo"))
 
 const loadComponent = (Component) => {
   return (data) => (
@@ -36,6 +37,7 @@ const BaseRouter = () => {
       <Route exact path="/signup" render={loadComponent(Signup)} />
       <Route exact path="/logout" render={loadComponent(Logout)} />
       <Route exact path="/profile" render={loadComponent(Profile)} />
+      <Route exact path="/demo" render={loadComponent(Demo)} />
     </Switch>
   );
 };

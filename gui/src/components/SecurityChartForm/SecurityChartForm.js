@@ -5,6 +5,7 @@ import { updateObject, checkValidity } from "../../shared/utility";
 import { convertFromDateToUNIXTimeStamp } from "../../shared/functions";
 import classes from "./StockChartForm.module.css";
 import TickerOptions from "./Ticker/Ticker";
+import Paper from "@material-ui/core/Paper";
 
 class SecurityChartForm extends Component {
   state = {
@@ -81,7 +82,7 @@ class SecurityChartForm extends Component {
         formElementIdentifier
       ].value;
     }
-    formValues.ticker = this.state.ticker.value
+    formValues.ticker = this.state.ticker.value;
     formValues.startDate = convertFromDateToUNIXTimeStamp(formValues.startDate);
     formValues.endDate = convertFromDateToUNIXTimeStamp(formValues.endDate);
     this.props.formSubmit(formValues);
@@ -112,14 +113,11 @@ class SecurityChartForm extends Component {
   };
 
   inputTickerChangedHandler = (event) => {
-    const updatedFormElement = updateObject(
-      this.state.ticker,
-      {
-        ...this.state.ticker,
-        value: event.target.value,
-      }
-    );
-    this.setState({ ticker: updatedFormElement});
+    const updatedFormElement = updateObject(this.state.ticker, {
+      ...this.state.ticker,
+      value: event.target.value,
+    });
+    this.setState({ ticker: updatedFormElement });
   };
 
   render() {
@@ -133,7 +131,6 @@ class SecurityChartForm extends Component {
 
     let form = (
       <form onSubmit={this.onSubmitHandler}>
-        
         <TickerOptions
           ticker={this.state.ticker}
           inputChangedHandler={this.inputTickerChangedHandler}
@@ -162,7 +159,7 @@ class SecurityChartForm extends Component {
       </form>
     );
 
-    return <div className={classes.Form}>{form}</div>;
+    return <Paper>{form}</Paper>;
   }
 }
 

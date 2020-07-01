@@ -87,6 +87,7 @@ export const optionValues = {
   volume: "Volume",
   openInterest: "Open Interest",
   impliedVolatility: "Implied Volatility",
+  porfolio: "Porfolio Analysis",
   delta: false,
   gamma: false,
   theta: false,

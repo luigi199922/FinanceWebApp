@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { getOptionData } from "../../shared/functions";
-import Row from "../Row/Row";
+import Row from "./Row/Row";
 import { optionValues } from "../../shared/utility";
 
-const Option = ({ ticker, expirationDate, optionDisplay, optionType }) => {
+const Option = ({
+  ticker,
+  expirationDate,
+  optionDisplay,
+  optionType,
+  addOption,
+}) => {
   const [optionData, setOptionData] = useState([]);
 
   useEffect(() => {
@@ -16,6 +22,7 @@ const Option = ({ ticker, expirationDate, optionDisplay, optionType }) => {
     rows = optionData.map((contract) => {
       return (
         <Row
+          addOption={addOption}
           key={contract.contractName}
           optionDisplay={optionDisplay}
           option={contract}

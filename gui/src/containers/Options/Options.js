@@ -1,13 +1,15 @@
 import React from "react";
 import "./Options.module.css";
 import TickerOptions from "../../components/SecurityChartForm/Ticker/Ticker";
-import { updateObject,optionListView } from "../../shared/utility";
+import { updateObject, optionListView } from "../../shared/utility";
 import { formatAPIRequestOptions } from "../../shared/functions";
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import Option from "../../components/Option/Option";
 import classes from "./Options.module.css";
 import SecurityInfo from "../../components/SecurityInfo/SecurityInfo";
+import Portfolio from "../../components/Option/Portfolio/Portfolio";
+
 export default class Options extends React.Component {
   state = {
     ticker: {
@@ -37,12 +39,29 @@ export default class Options extends React.Component {
     viewOptionChain: false,
     optionType: "CALL",
     displayList: true,
+    optionPortfolio: {},
+  };
+
+  addOption = (option) => {
+    const newPortfolio = {...this.state.optionPortfolio};
+    if (option.contractName in newPortfolio) {
+      newPortfolio[option.contractName].amount += 1;
+    } else {
+      option.amount = 1;
+      newPortfolio[option.contractName] = option;
+    }
+    this.setState({ optionPortfolio: newPortfolio });
+  };
+
+  removeOption = (contract) => {
+    const newPortfolio = {...this.state.optionPortfolio};
+    delete newPortfolio[contract];
+    this.setState({ optionPortfolio: newPortfolio });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
     this.setState({ viewOptionChain: true });
-    console.log(this.state.ticker.value, this.state.dates.value);
   };
 
   inputTickerChangedHandler = (event) => {
@@ -67,9 +86,8 @@ export default class Options extends React.Component {
       .catch((err) => console.log(err));
   };
   toggleListHandler = () => {
-    this.setState({displayList: !this.state.displayList})
-    console.log(this.state.displayList)
-  }
+    this.setState({ displayList: !this.state.displayList });
+  };
   inputChangedHandler = (event) => {
     const updatedFormElement = updateObject(this.state.dates, {
       ...this.state.dates,
@@ -85,11 +103,9 @@ export default class Options extends React.Component {
   };
 
   toggleOptionTypeHandler = (type) => {
-    if(this.state.displayList){
-
+    if (this.state.displayList) {
     }
     this.setState({ optionType: type });
-    console.log(this.state);
   };
 
   render() {
@@ -114,6 +130,7 @@ export default class Options extends React.Component {
     if (this.state.viewOptionChain) {
       optionChain = (
         <Option
+          addOption={this.addOption}
           optionDisplay={optionListView}
           ticker={this.state.ticker.value}
           expirationDate={this.state.dates.value}
@@ -129,6 +146,10 @@ export default class Options extends React.Component {
     return (
       <div className={classes.Container}>
         {tickerInfo}
+        <Portfolio
+          options={this.state.optionPortfolio}
+          removeOption={this.removeOption}
+        />
         <form onSubmit={this.handleSubmit}>
           <TickerOptions
             ticker={this.state.ticker}
@@ -151,10 +172,11 @@ export default class Options extends React.Component {
         >
           Puts
         </Button>
-        <div style={{display : "inline-block"}}>
-        <p>Display: </p> <p onClick={this.toggleListHandler}>List</p> <p>Straddle</p>
+        <div style={{ display: "inline-block" }}>
+          <p>Display: </p> <p onClick={this.toggleListHandler}>List</p>{" "}
+          <p>Straddle</p>
         </div>
-       
+
         {optionChain}
       </div>
     );

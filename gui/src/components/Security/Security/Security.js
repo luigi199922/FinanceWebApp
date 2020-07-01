@@ -1,7 +1,6 @@
 import React, {
   useState,
   useEffect,
-  Fragment,
   createContext,
   useMemo,
   useContext,
@@ -25,7 +24,7 @@ const Security = ({ symbol, clicked, children }) => {
       console.log(res);
     };
     getTickerData();
-  }, []);
+  }, [symbol]);
 
   const memoizedValue = useMemo(
     () => (
@@ -33,7 +32,8 @@ const Security = ({ symbol, clicked, children }) => {
         ...tickerData,
       },
       [tickerData]
-    )
+    ),
+    []
   );
   return (
     <Provider value={memoizedValue}>
@@ -50,20 +50,9 @@ const Security = ({ symbol, clicked, children }) => {
   );
 };
 
-const PriceData = ({ userStyles = {}, history }) => {
-  return (
-    <Fragment>
-      <p>Open:</p>
-      <p>Close:</p>
-      <p>Price:</p>
-    </Fragment>
-  );
-};
-
 const ChartBtn = ({ userStyles = {}, history }) => {
-  
   const { data } = useContext(SecurityContext);
-  console.log(data)
+  console.log(data);
   const chartRedirect = () => {
     history.push(`/chart/AAPL`);
   };

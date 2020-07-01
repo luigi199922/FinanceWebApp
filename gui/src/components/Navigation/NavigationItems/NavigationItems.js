@@ -9,7 +9,6 @@ const NavigationItems = ({isAuth}) => (
     <NavigationItem link="/stock">Stocks</NavigationItem>
     <NavigationItem link="/forex">Forex</NavigationItem>
     <NavigationItem link="/crypto">Crypto</NavigationItem>
-    <NavigationItem link="/economic">Economic</NavigationItem>
     {!isAuth ? (
       <NavigationItem link="/login">Login</NavigationItem>
     ) : (

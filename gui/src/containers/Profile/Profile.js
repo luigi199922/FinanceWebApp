@@ -17,7 +17,7 @@ const Profile = ({ userData, isAuth, history, token }) => {
       setWatchList(res.data);
     };
     getWatchList();
-  }, []);
+  }, [token]);
 
   const removeFromWatchlist = async (symbol) => {
     await axios.delete("watchlist", createHTTPHeaders(token, { symbol }));
