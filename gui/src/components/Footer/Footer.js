@@ -13,7 +13,7 @@ const Footer = () => {
             <ul className={classes.Icons}>
               <li className="link d-inline-block">
                 <a
-                  href="https://github.com/luisalfonsopreciado"
+                  href="https://github.com/luisalfonsopreciado/FinanceWebApp"
                   rel="noopener noreferrer"
                   className="LinkU"
                   target="_blank"

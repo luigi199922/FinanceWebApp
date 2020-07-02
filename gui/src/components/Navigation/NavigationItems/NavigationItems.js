@@ -4,7 +4,7 @@ import NavigationItem from "./NavigationItem/NavigationItem";
 
 const NavigationItems = ({isAuth}) => (
   <ul className={classes.NavigationItems}>
-    <NavigationItem link="/">FINALYTICS</NavigationItem>
+    <NavigationItem link="/FinanceWebApp">FINALYTICS</NavigationItem>
     <NavigationItem link="/options">Options</NavigationItem>
     <NavigationItem link="/stock">Stocks</NavigationItem>
     <NavigationItem link="/forex">Forex</NavigationItem>

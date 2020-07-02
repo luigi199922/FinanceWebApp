@@ -6,7 +6,6 @@ const Options = lazy(() => import("./containers/Options/Options"));
 const InstrumentChart = lazy(() => import("./containers/InstrumentChart/InstrumentChart"));
 const Auth = lazy(() => import("./containers/Auth/Auth"))
 const Signup = lazy(() => import("./containers/Auth/Signup/Signup"))
-const Economic = lazy(() => import("./containers/Economic/Economic"));
 const Logout = lazy(()=> import("./containers/Auth/Logout/Logout"))
 const Profile = lazy(() => import("./containers/Profile/Profile"))
 const Demo = lazy(() => import("./containers/Demo/Demo"))
@@ -22,7 +21,7 @@ const loadComponent = (Component) => {
 const BaseRouter = () => {
   return (
     <Switch>
-      <Route exact path="/" render={loadComponent(COVID)} />
+      <Route exact path="/FinanceWebApp" render={loadComponent(COVID)} />
       <Route path="/options/" render={loadComponent(Options)} />
       <Route exact path="/stock" render={loadComponent(InstrumentChart)} />
       <Route
@@ -32,7 +31,6 @@ const BaseRouter = () => {
       />
       <Route exact path="/forex" render={loadComponent(InstrumentChart)} />
       <Route exact path="/crypto" render={loadComponent(InstrumentChart)} />
-      <Route exact path="/economic" render={loadComponent(Economic)} />
       <Route exact path="/login" render={loadComponent(Auth)} />
       <Route exact path="/signup" render={loadComponent(Signup)} />
       <Route exact path="/logout" render={loadComponent(Logout)} />
