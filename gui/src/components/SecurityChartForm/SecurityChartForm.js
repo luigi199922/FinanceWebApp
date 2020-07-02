@@ -3,7 +3,6 @@ import Button from "../UI/Button/Button";
 import Input from "../UI/Input/Input";
 import { updateObject, checkValidity } from "../../shared/utility";
 import { convertFromDateToUNIXTimeStamp } from "../../shared/functions";
-import classes from "./StockChartForm.module.css";
 import TickerOptions from "./Ticker/Ticker";
 import Paper from "@material-ui/core/Paper";
 

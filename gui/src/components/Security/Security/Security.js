@@ -27,13 +27,10 @@ const Security = ({ symbol, clicked, children }) => {
   }, [symbol]);
 
   const memoizedValue = useMemo(
-    () => (
-      {
-        ...tickerData,
-      },
-      [tickerData]
-    ),
-    []
+    () => ({
+      ...tickerData,
+    }),
+    [tickerData]
   );
   return (
     <Provider value={memoizedValue}>
@@ -60,10 +57,6 @@ const ChartBtn = ({ userStyles = {}, history }) => {
 };
 
 const FundamentalsBtn = ({ userStyles = {}, history }) => {
-  const { symbol } = useContext(SecurityContext);
-  const fundamentalsRedirect = () => {
-    history.push(`/chart/${symbol}`);
-  };
   return <Button>Fundamentals</Button>;
 };
 
