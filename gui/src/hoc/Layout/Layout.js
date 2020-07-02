@@ -1,11 +1,11 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import Footer from "../../components/Footer/Footer";
 import MainContainer from "../../components/MainContainer/MainContainer";
 import BaseRouter from "../../routes";
 import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
-import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer"
+import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
 
-const Layout = (props) => {
+const Layout = () => {
   const [showSideDrawer, setShowSideDrawer] = useState(true);
 
   const sideDrawerCloser = () => {
@@ -17,16 +17,14 @@ const Layout = (props) => {
     });
   };
   return (
-    <React.Fragment>
-      <Toolbar drawerToggleClicked = {sideDrawerToggleHandler}/>
-      <SideDrawer 
-                open={showSideDrawer} 
-                closed={sideDrawerCloser}/>
+    <>
+      <Toolbar drawerToggleClicked={sideDrawerToggleHandler} />
+      <SideDrawer open={showSideDrawer} closed={sideDrawerCloser} />
       <MainContainer>
         <BaseRouter />
       </MainContainer>
       <Footer />
-    </React.Fragment>
+    </>
   );
 };
 

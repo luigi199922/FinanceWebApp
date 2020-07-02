@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Options.module.css";
 import TickerOptions from "../../components/SecurityChartForm/Ticker/Ticker";
 import { updateObject, optionListView } from "../../shared/utility";
@@ -10,87 +10,83 @@ import classes from "./Options.module.css";
 import SecurityInfo from "../../components/SecurityInfo/SecurityInfo";
 import Portfolio from "../../components/Option/Portfolio/Portfolio";
 
-export default class Options extends React.Component {
-  state = {
-    ticker: {
-      elementType: "select",
-      elementConfig: {
-        options: [],
-      },
-      value: "",
-      validation: {
-        required: true,
-      },
-      label: "Ticker Symbol",
+const Options = ({ history }) => {
+  const [ticker, setTicker] = useState({
+    elementType: "select",
+    elementConfig: {
+      options: [],
     },
-    dates: {
-      elementType: "select",
-      elementConfig: {
-        options: [],
-      },
-      value: "",
-      validation: {
-        required: true,
-      },
-      label: "Expiration Date",
-      touched: false,
+    value: "",
+    validation: {
+      required: true,
     },
-    formIsValid: false,
-    viewOptionChain: false,
-    optionType: "CALL",
-    displayList: true,
-    optionPortfolio: {},
-  };
+    label: "Ticker Symbol",
+  });
+  const [dates, setDates] = useState({
+    elementType: "select",
+    elementConfig: {
+      options: [],
+    },
+    value: "",
+    validation: {
+      required: true,
+    },
+    label: "Expiration Date",
+    touched: false,
+  });
+  const [formIsValid, setFormIsValid] = useState(false);
+  const [viewOptionChain, setViewOptionChain] = useState(false);
+  const [optionType, setOptionType] = useState("CALL");
+  const [displayList, setDisplayList] = useState(true);
+  const [optionPortfolio, setOptionPortfolio] = useState({});
 
-  addOption = (option) => {
-    const newPortfolio = {...this.state.optionPortfolio};
+  // Add Option to the portfolio
+  const addOption = (option) => {
+    const newPortfolio = { ...optionPortfolio };
     if (option.contractName in newPortfolio) {
       newPortfolio[option.contractName].amount += 1;
     } else {
       option.amount = 1;
       newPortfolio[option.contractName] = option;
     }
-    this.setState({ optionPortfolio: newPortfolio });
+    setOptionPortfolio(newPortfolio);
   };
 
-  removeOption = (contract) => {
-    const newPortfolio = {...this.state.optionPortfolio};
+  // Remove Option from the portfolio
+  const removeOption = (contract) => {
+    const newPortfolio = { ...optionPortfolio };
     delete newPortfolio[contract];
-    this.setState({ optionPortfolio: newPortfolio });
+    setOptionPortfolio(newPortfolio);
   };
 
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    this.setState({ viewOptionChain: true });
+    setViewOptionChain(true);
   };
 
-  inputTickerChangedHandler = (event) => {
-    const updatedFormElement = updateObject(this.state.ticker, {
-      ...this.state.ticker,
+  const inputTickerChangedHandler = async (event) => {
+    const updatedFormElement = updateObject(ticker, {
+      ...ticker,
       value: event.target.value,
     });
-    this.props.history.push("options/" + event.target.value + "/");
-    this.setState({ ticker: updatedFormElement });
-    const expDates = formatAPIRequestOptions(event.target.value);
+    history.push("/options/" + event.target.value + "/");
+    setTicker(updatedFormElement);
+    const expDates = await formatAPIRequestOptions(event.target.value);
 
-    expDates
-      .then((d) => {
-        const date = {
-          ...this.state.dates,
-          elementConfig: {
-            options: d,
-          },
-        };
-        this.setState({ dates: date });
-      })
-      .catch((err) => console.log(err));
+    const date = {
+      ...dates,
+      elementConfig: {
+        options: expDates,
+      },
+    };
+    setDates(date);
   };
-  toggleListHandler = () => {
-    this.setState({ displayList: !this.state.displayList });
+  const toggleListHandler = () => {
+    setDisplayList(!displayList);
   };
-  inputChangedHandler = (event) => {
-    const updatedFormElement = updateObject(this.state.dates, {
-      ...this.state.dates,
+  const inputChangedHandler = (event) => {
+    const updatedFormElement = updateObject(dates, {
+      ...dates,
       value: event.target.value,
     });
     let formIsValid = true;
@@ -99,86 +95,74 @@ export default class Options extends React.Component {
         formIsValid = false;
       }
     }
-    this.setState({ dates: updatedFormElement, formIsValid: formIsValid });
+    setDates(updatedFormElement);
+    setFormIsValid(formIsValid);
   };
 
-  toggleOptionTypeHandler = (type) => {
-    if (this.state.displayList) {
-    }
-    this.setState({ optionType: type });
+  const toggleOptionTypeHandler = (type) => {
+    setOptionType(type);
   };
-
-  render() {
-    const date = this.state.dates;
-    let expirationDates = null;
-    if (date.elementConfig.options.length > 0) {
-      expirationDates = (
-        <Input
-          key={1}
-          elementType={date.elementType}
-          elementConfig={date.elementConfig}
-          invalid={!true}
-          shouldValidate={date.validation.required}
-          value={date.value}
-          touched={date.touched}
-          label={date.label}
-          changed={(event) => this.inputChangedHandler(event, 1)}
-        />
-      );
-    }
-    let optionChain = null;
-    if (this.state.viewOptionChain) {
-      optionChain = (
-        <Option
-          addOption={this.addOption}
-          optionDisplay={optionListView}
-          ticker={this.state.ticker.value}
-          expirationDate={this.state.dates.value}
-          optionType={this.state.optionType}
-          displayList={this.state.displayList}
-        />
-      );
-    }
-    let tickerInfo = null;
-    if (this.state.ticker.value !== "") {
-      tickerInfo = <SecurityInfo ticker={this.state.ticker.value} />;
-    }
-    return (
-      <div className={classes.Container}>
-        {tickerInfo}
-        <Portfolio
-          options={this.state.optionPortfolio}
-          removeOption={this.removeOption}
-        />
-        <form onSubmit={this.handleSubmit}>
-          <TickerOptions
-            ticker={this.state.ticker}
-            inputChangedHandler={this.inputTickerChangedHandler}
-          />
-          {expirationDates}
-          <Button btnType="Success" disabled={!this.state.formIsValid}>
-            Submit
-          </Button>
-        </form>
-        <Button
-          btnType="Info"
-          clicked={() => this.toggleOptionTypeHandler("CALL")}
-        >
-          Calls
-        </Button>
-        <Button
-          btnType="Info"
-          clicked={() => this.toggleOptionTypeHandler("PUT")}
-        >
-          Puts
-        </Button>
-        <div style={{ display: "inline-block" }}>
-          <p>Display: </p> <p onClick={this.toggleListHandler}>List</p>{" "}
-          <p>Straddle</p>
-        </div>
-
-        {optionChain}
-      </div>
+  const date = dates;
+  let expirationDates = null;
+  if (date.elementConfig.options.length > 0) {
+    expirationDates = (
+      <Input
+        key={1}
+        elementType={date.elementType}
+        elementConfig={date.elementConfig}
+        invalid={!true}
+        shouldValidate={date.validation.required}
+        value={date.value}
+        touched={date.touched}
+        label={date.label}
+        changed={(event) => inputChangedHandler(event, 1)}
+      />
     );
   }
-}
+  let optionChain = null;
+  if (viewOptionChain) {
+    optionChain = (
+      <Option
+        addOption={addOption}
+        optionDisplay={optionListView}
+        ticker={ticker.value}
+        expirationDate={dates.value}
+        optionType={optionType}
+        displayList={displayList}
+      />
+    );
+  }
+  let tickerInfo = null;
+  if (ticker.value !== "") {
+    tickerInfo = <SecurityInfo ticker={ticker.value} />;
+  }
+  return (
+    <div className={classes.Container}>
+      {tickerInfo}
+      <Portfolio options={optionPortfolio} removeOption={removeOption} />
+      <form onSubmit={handleSubmit}>
+        <TickerOptions
+          ticker={ticker}
+          inputChangedHandler={inputTickerChangedHandler}
+        />
+        {expirationDates}
+        <Button btnType="Success" disabled={!formIsValid}>
+          Submit
+        </Button>
+      </form>
+      <Button btnType="Info" clicked={() => toggleOptionTypeHandler("CALL")}>
+        Calls
+      </Button>
+      <Button btnType="Info" clicked={() => toggleOptionTypeHandler("PUT")}>
+        Puts
+      </Button>
+      <div style={{ display: "inline-block" }}>
+        <p>Display: </p> <p onClick={toggleListHandler}>List</p> <p>Straddle</p>
+      </div>
+
+      {optionChain}
+    </div>
+  );
+};
+
+export default Options;
