@@ -41,14 +41,18 @@ const Options = ({ history }) => {
   const [optionPortfolio, setOptionPortfolio] = useState({});
 
   // Add Option to the portfolio
-  const addOption = (option) => {
+  const addOption = (option, direction) => {
     const newPortfolio = { ...optionPortfolio };
+    option.contractName = option.contractName.replace("LONG", "");
+    option.contractName = option.contractName.replace("SHORT", "");
+    option.contractName += (direction);
     if (option.contractName in newPortfolio) {
       newPortfolio[option.contractName].amount += 1;
     } else {
       option.amount = 1;
       newPortfolio[option.contractName] = option;
     }
+
     setOptionPortfolio(newPortfolio);
   };
 
@@ -57,6 +61,11 @@ const Options = ({ history }) => {
     const newPortfolio = { ...optionPortfolio };
     delete newPortfolio[contract];
     setOptionPortfolio(newPortfolio);
+  };
+
+  // Clears the option portfolio
+  const clearOptions = () => {
+    setOptionPortfolio({});
   };
 
   const handleSubmit = (event) => {
@@ -69,6 +78,7 @@ const Options = ({ history }) => {
       ...ticker,
       value: event.target.value,
     });
+    clearOptions();
     history.push("/options/" + event.target.value + "/");
     setTicker(updatedFormElement);
     const expDates = await formatAPIRequestOptions(event.target.value);
@@ -85,6 +95,7 @@ const Options = ({ history }) => {
     setDisplayList(!displayList);
   };
   const inputChangedHandler = (event) => {
+    clearOptions();
     const updatedFormElement = updateObject(dates, {
       ...dates,
       value: event.target.value,
@@ -119,19 +130,7 @@ const Options = ({ history }) => {
       />
     );
   }
-  let optionChain = null;
-  if (viewOptionChain) {
-    optionChain = (
-      <Option
-        addOption={addOption}
-        optionDisplay={optionListView}
-        ticker={ticker.value}
-        expirationDate={dates.value}
-        optionType={optionType}
-        displayList={displayList}
-      />
-    );
-  }
+
   let tickerInfo = null;
   if (ticker.value !== "") {
     tickerInfo = <SecurityInfo ticker={ticker.value} />;
@@ -160,7 +159,16 @@ const Options = ({ history }) => {
         <p>Display: </p> <p onClick={toggleListHandler}>List</p> <p>Straddle</p>
       </div>
 
-      {optionChain}
+      {viewOptionChain && (
+        <Option
+          addOption={addOption}
+          optionDisplay={optionListView}
+          ticker={ticker.value}
+          expirationDate={dates.value}
+          optionType={optionType}
+          displayList={displayList}
+        />
+      )}
     </div>
   );
 };

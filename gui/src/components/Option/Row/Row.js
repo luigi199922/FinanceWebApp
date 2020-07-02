@@ -25,10 +25,10 @@ const Row = ({ option, optionDisplay, addOption }) => {
     <tr className={inTheMoney === "TRUE" ? classes.Row : null}>
       {TableData}
       <TD>
-        <Button color="primary" onClick={() => addOption(option)}>
+        <Button color="primary" onClick={() => addOption(option, "LONG")}>
           Long
         </Button>
-        <Button color="primary">Short</Button>
+        <Button color="primary" onClick={() => addOption(option, "SHORT")}>Short</Button>
       </TD>
     </tr>
   );

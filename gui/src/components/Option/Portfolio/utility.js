@@ -11,16 +11,20 @@ export const getPayoffData = (options) => {
     fillPayoffArray(data, i, options, keys, cost);
   }
 
-  console.log(data);
-
   return { data, labels };
 };
 
 export const evaluatePayoffFunc = (option, price) => {
   if (option.type === "CALL") {
-    return Math.max(price - parseInt(option.strike), 0) * option.amount;
+    if (option.contractName.includes("LONG")) {
+      return Math.max(price - parseInt(option.strike), 0) * option.amount;
+    }
+    return Math.min(0, option.strike - price) * option.amount;
   } else {
-    return Math.max(parseInt(option.strike) - price, 0) * option.amount;
+    if (option.contractName.includes("LONG")) {
+      return Math.max(parseInt(option.strike) - price, 0) * option.amount;
+    }
+    return Math.min(0, price - option.strike) * option.amount;
   }
 };
 
@@ -37,8 +41,7 @@ export const getMaxStrike = (options) => {
 
 const fillPayoffArray = (matrix, index, options, keys, cost) => {
   for (let i = 0; i < keys.length; i++) {
-    matrix[index] +=
-      Math.max(evaluatePayoffFunc(options[keys[i]], index), 0) - cost;
+    matrix[index] +=evaluatePayoffFunc(options[keys[i]], index) - cost;
   }
 };
 
@@ -46,7 +49,11 @@ const getTotalCost = (options) => {
   const keys = Object.keys(options);
   let cost = 0;
   keys.forEach((key) => {
-    cost += options[key].ask;
+    if (options[key].contractName.includes("SHORT")) {
+      cost -= options[key].bid * options[key].amount;
+    } else {
+      cost += options[key].ask * options[key].amount;
+    }
   });
   return cost;
 };

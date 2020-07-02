@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button, Paper } from "@material-ui/core";
 import Payoff from "../Charts/Payoff/Payoff";
-import Delete from "./Delete.svg";
-import { getMaxStrike, getPayoffData } from "./utility";
+import { getPayoffData } from "./utility";
+import OptionControls from "./OptionControls";
 
 const Portfolio = ({ options, removeOption }) => {
   const [Data, setData] = useState([]);
@@ -10,25 +10,15 @@ const Portfolio = ({ options, removeOption }) => {
   const [view, setView] = useState(false);
 
   useEffect(() => {
-    console.log("Portfolio useEffect");
+    if (Object.keys(options).length === 0) return setView(false);
     const { data, labels } = getPayoffData(options);
     setData(data);
     setLabels(labels);
   }, [options]);
 
-  const keys = Object.keys(options);
-  let list = keys.map((key) => {
+  let list = Object.keys(options).map((key) => {
     const o = options[key];
-    return (
-      <ul key={o.contractName}>
-        <p>
-          {o.contractName} Strike: {o.strike} Cost: {o.ask} Amount: {o.amount}
-        </p>
-        <div onClick={() => removeOption(o.contractName)}>
-          <img src={Delete} alt="Remove"></img>
-        </div>
-      </ul>
-    );
+    return <OptionControls option={o} removeOption={removeOption} />;
   });
 
   return (
@@ -39,7 +29,6 @@ const Portfolio = ({ options, removeOption }) => {
           {list}
           {list.length > 0 && (
             <>
-              <p>{getMaxStrike(options)}</p>
               <Button color="primary" onClick={() => setView(true)}>
                 View Chart
               </Button>
