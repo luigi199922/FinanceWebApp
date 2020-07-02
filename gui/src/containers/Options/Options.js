@@ -9,6 +9,10 @@ import Option from "../../components/Option/Option";
 import classes from "./Options.module.css";
 import SecurityInfo from "../../components/SecurityInfo/SecurityInfo";
 import Portfolio from "../../components/Option/Portfolio/Portfolio";
+import configurePortfolioStore from "../../hooks-store/optionPortfolio";
+import { useStore } from "../../hooks-store/store";
+
+configurePortfolioStore();
 
 const Options = ({ history }) => {
   const [ticker, setTicker] = useState({
@@ -38,35 +42,7 @@ const Options = ({ history }) => {
   const [viewOptionChain, setViewOptionChain] = useState(false);
   const [optionType, setOptionType] = useState("CALL");
   const [displayList, setDisplayList] = useState(true);
-  const [optionPortfolio, setOptionPortfolio] = useState({});
-
-  // Add Option to the portfolio
-  const addOption = (option, direction) => {
-    const newPortfolio = { ...optionPortfolio };
-    option.contractName = option.contractName.replace("LONG", "");
-    option.contractName = option.contractName.replace("SHORT", "");
-    option.contractName += (direction);
-    if (option.contractName in newPortfolio) {
-      newPortfolio[option.contractName].amount += 1;
-    } else {
-      option.amount = 1;
-      newPortfolio[option.contractName] = option;
-    }
-
-    setOptionPortfolio(newPortfolio);
-  };
-
-  // Remove Option from the portfolio
-  const removeOption = (contract) => {
-    const newPortfolio = { ...optionPortfolio };
-    delete newPortfolio[contract];
-    setOptionPortfolio(newPortfolio);
-  };
-
-  // Clears the option portfolio
-  const clearOptions = () => {
-    setOptionPortfolio({});
-  };
+  const dispatch = useStore(false)[1];
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -78,7 +54,7 @@ const Options = ({ history }) => {
       ...ticker,
       value: event.target.value,
     });
-    clearOptions();
+    dispatch("CLEAR_PORTFOLIO");
     history.push("/options/" + event.target.value + "/");
     setTicker(updatedFormElement);
     const expDates = await formatAPIRequestOptions(event.target.value);
@@ -95,7 +71,7 @@ const Options = ({ history }) => {
     setDisplayList(!displayList);
   };
   const inputChangedHandler = (event) => {
-    clearOptions();
+    dispatch("CLEAR_PORTFOLIO");
     const updatedFormElement = updateObject(dates, {
       ...dates,
       value: event.target.value,
@@ -138,7 +114,7 @@ const Options = ({ history }) => {
   return (
     <div className={classes.Container}>
       {tickerInfo}
-      <Portfolio options={optionPortfolio} removeOption={removeOption} />
+      <Portfolio />
       <form onSubmit={handleSubmit}>
         <TickerOptions
           ticker={ticker}
@@ -161,7 +137,6 @@ const Options = ({ history }) => {
 
       {viewOptionChain && (
         <Option
-          addOption={addOption}
           optionDisplay={optionListView}
           ticker={ticker.value}
           expirationDate={dates.value}

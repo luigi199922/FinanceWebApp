@@ -8,7 +8,6 @@ const Option = ({
   expirationDate,
   optionDisplay,
   optionType,
-  addOption,
 }) => {
   const [optionData, setOptionData] = useState([]);
 
@@ -22,7 +21,6 @@ const Option = ({
     rows = optionData.map((contract) => {
       return (
         <Row
-          addOption={addOption}
           key={contract.contractName}
           optionDisplay={optionDisplay}
           option={contract}

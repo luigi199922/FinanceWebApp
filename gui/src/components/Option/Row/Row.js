@@ -2,11 +2,12 @@ import React from "react";
 import TD from "./TableData/TableData";
 import classes from "./Row.module.css";
 import { Button } from "@material-ui/core";
+import { useStore } from "../../../hooks-store/store";
 
-const Row = ({ option, optionDisplay, addOption }) => {
+const Row = ({ option, optionDisplay }) => {
   const { inTheMoney } = option;
   const properties = Object.keys(optionDisplay);
-
+  const dispatch = useStore(false)[1];
   let TableData = null;
   TableData = properties.map((val, key) => {
     if (val === "lastTradeDateTime") {
@@ -25,10 +26,18 @@ const Row = ({ option, optionDisplay, addOption }) => {
     <tr className={inTheMoney === "TRUE" ? classes.Row : null}>
       {TableData}
       <TD>
-        <Button color="primary" onClick={() => addOption(option, "LONG")}>
+        <Button
+          color="primary"
+          onClick={() => dispatch("ADD_OPTION", { option, direction: "LONG" })}
+        >
           Long
         </Button>
-        <Button color="primary" onClick={() => addOption(option, "SHORT")}>Short</Button>
+        <Button
+          color="primary"
+          onClick={() => dispatch("ADD_OPTION", { option, direction: "SHORT" })}
+        >
+          Short
+        </Button>
       </TD>
     </tr>
   );
