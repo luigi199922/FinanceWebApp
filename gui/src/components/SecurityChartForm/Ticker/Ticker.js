@@ -21,10 +21,8 @@ const TickerOptions = ({
   const [instrumentArray, setInstrumentArray] = useState([]);
 
   useEffect((instrumentArray) => {
-    console.log("Use Effect Called")
     const tickersArray = getTickerSymbols(path.slice(1));
     tickersArray.then((ticker) => setInstrumentArray(ticker));
-    console.log(path)
   }, [path]);
 
 

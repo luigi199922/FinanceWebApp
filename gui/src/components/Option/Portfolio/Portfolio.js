@@ -4,12 +4,22 @@ import Payoff from "../Charts/Payoff/Payoff";
 import { getPayoffData } from "./utility";
 import OptionControls from "./OptionControls";
 import { useStore } from "../../../hooks-store/store";
+import { makeStyles } from "@material-ui/core/styles";
+import { withRouter } from "react-router";
 
-const Portfolio = () => {
-  const [portfolio, dispatch] = useStore();
+const useStyles = makeStyles({
+  container: {
+    padding: "10px",
+  },
+});
+
+const Portfolio = ({ history }) => {
+  const classes = useStyles();
+  const [state, dispatch] = useStore();
   const [Data, setData] = useState([]);
   const [Labels, setLabels] = useState([]);
   const [view, setView] = useState(false);
+  const { portfolio } = state;
 
   useEffect(() => {
     if (Object.keys(portfolio).length === 0) return setView(false);
@@ -22,6 +32,7 @@ const Portfolio = () => {
     const o = portfolio[key];
     return (
       <OptionControls
+        key={o.contractName}
         option={o}
         removeOption={() =>
           dispatch("REMOVE_OPTION", { contract: o.contractName })
@@ -29,10 +40,10 @@ const Portfolio = () => {
       />
     );
   });
-
+  console.log(portfolio, state);
   return (
     <>
-      <Paper>
+      <Paper className={classes.container}>
         <div>
           <h3>Analyze Option Portfolio:</h3>
           {list}
@@ -44,6 +55,23 @@ const Portfolio = () => {
               <Button color="primary" onClick={() => setView(false)}>
                 Hide Chart
               </Button>
+              <Button
+                color="primary"
+                onClick={() =>
+                  dispatch("ADD_OPTION", {
+                    option: {
+                      contractName: state.stock.ticker,
+                      type: "STOCK",
+                      strike: state.stock.data.priceClose,
+                      bid: 0,
+                      ask: 0,
+                    },
+                    direction: "LONG",
+                  })
+                }
+              >
+                Add Stock Purchase
+              </Button>
             </>
           )}
         </div>
@@ -53,4 +81,4 @@ const Portfolio = () => {
   );
 };
 
-export default Portfolio;
+export default withRouter(Portfolio);

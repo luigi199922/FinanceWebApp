@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Delete from "./Delete.svg";
+import { useStore } from "../../../hooks-store/store";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +24,7 @@ const OptionControls = ({
   option: { contractName, strike, amount, ask, type },
   removeOption,
 }) => {
+  const dispatch = useStore()[1];
   const classes = useStyles();
   return (
     <ExpansionPanel key={contractName} elevation={12}>
@@ -41,7 +43,9 @@ const OptionControls = ({
           label="Amount"
           type="number"
           defaultValue={amount}
-          onChange={(e) => (option.amount = e.target.value)}
+          onChange={(e) =>
+            dispatch("SET_AMOUNT", { option: option.contractName, amount: e.target.value })
+          }
           InputLabelProps={{
             shrink: true,
           }}

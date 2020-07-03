@@ -107,13 +107,9 @@ const Options = ({ history }) => {
     );
   }
 
-  let tickerInfo = null;
-  if (ticker.value !== "") {
-    tickerInfo = <SecurityInfo ticker={ticker.value} />;
-  }
   return (
     <div className={classes.Container}>
-      {tickerInfo}
+      {(ticker.value !== "") && <SecurityInfo ticker={ticker.value} />}
       <Portfolio />
       <form onSubmit={handleSubmit}>
         <TickerOptions

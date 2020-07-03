@@ -20,11 +20,16 @@ export const evaluatePayoffFunc = (option, price) => {
       return Math.max(price - parseInt(option.strike), 0) * option.amount;
     }
     return Math.min(0, option.strike - price) * option.amount;
-  } else {
+  } else if (option.type === "PUT") {
     if (option.contractName.includes("LONG")) {
       return Math.max(parseInt(option.strike) - price, 0) * option.amount;
     }
     return Math.min(0, price - option.strike) * option.amount;
+  } else if (option.type === "STOCK") {
+    if (option.contractName.includes("LONG")) {
+      return (price - option.strike) * option.amount;
+    }
+    return (option.strike - price) * option.amount;
   }
 };
 
@@ -41,7 +46,7 @@ export const getMaxStrike = (options) => {
 
 const fillPayoffArray = (matrix, index, options, keys, cost) => {
   for (let i = 0; i < keys.length; i++) {
-    matrix[index] +=evaluatePayoffFunc(options[keys[i]], index) - cost;
+    matrix[index] += evaluatePayoffFunc(options[keys[i]], index) - cost;
   }
 };
 
